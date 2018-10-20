@@ -1,18 +1,26 @@
 from estadoDispositivo import *
-from easysnmp import Session
+from easysnmp import Session, EasySNMPTimeoutError
+
 
 def obtenerSesion(hostname,community, version, tipo, elementoLista):
     session = Session(hostname=hostname, community=community, version=version)
     if(tipo=="walk"):
-        description = str(session.walk(elementoLista))
+        try:
+            description = str(session.walk(elementoLista))
+        except EasySNMPTimeoutError:
+            description = 'Timeout Error'
     elif(tipo=="get"):
-        description = str(session.get(elementoLista))
+        try:
+            description = str(session.get(elementoLista))
+        except EasySNMPTimeoutError:
+            description = 'Timeout Error'
     else:
-        description = 'Error'
-    
+        description = 'No fue seleccionada una opción correcta'
     return description
 
 def obtenerSubcadena(cadena):
+    if(cadena=='Timeout Error'):
+        return cadena
     inicio = cadena.index("=")
     sub = cadena[inicio+2:]
     fin = sub.index("'")
@@ -32,6 +40,8 @@ def version(versionsnmp):
 
 def so(hostname,community,version):
     cadena = obtenerSesion(hostname,community,version,"get",lista_oid[2])
+    if(cadena=='Timeout Error'):
+        return cadena
     inicio = cadena.index("=")
     sub = cadena[inicio + 2:]
     fin = sub.index(" ")
@@ -43,6 +53,8 @@ def noInterfacesRed(hostname,community,version):
 
 def tiempoUltimoReinicio(hostname,community,version):
     subcadena = obtenerSubcadena(obtenerSesion(hostname,community,version,"get",lista_oid[4]))
+    if(subcadena=='Timeout Error'):
+        return subcadena
     milisegundos= int(subcadena)
     num= milisegundos/100
     hor = (int(num / 3600))
@@ -58,9 +70,12 @@ def infContacto(hostname,community,version):
     return obtenerSubcadena(obtenerSesion(hostname,community,version,"get",lista_oid[6]))
 
 def estatusInterfaces(hostname, community, version, num):
-    session = Session(hostname=hostname, community=community, version=version)
-    description = str(session.get('1.3.6.1.2.1.2.2.1.8.' + str(num)))
-    return obtenerSubcadena(description)
+    #session = Session(hostname=hostname, community=community, version=version)
+    #try:
+    #    description = str(session.get('1.3.6.1.2.1.2.2.1.8.' + str(num)))
+    #except EasySNMPTimeoutError:
+    #    description = 'Timeout Error'
+    return "1"#obtenerSubcadena(description)
 
 def ifInDiscards(hostname,community, version):
     return obtenerSubcadena(obtenerSesion(hostname,community,version,"get",'1.3.6.1.2.1.2.2.1.13.1'))

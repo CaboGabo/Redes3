@@ -57,7 +57,7 @@ def printinfo(indice, columna,pes3):
                 a.image = img3
                 a.grid(row=fila, column=columna)
             archivo.close()
-        time.sleep(1)
+        time.sleep(2)
 
 class Principal():
 
@@ -169,7 +169,7 @@ class Principal():
         for i in range (0, nagentes):
             t = Thread(target=printinfo, args=(i,columna,pes3,))
             t.start()
-            columna+=15
+            columna+=5
 
     """"def pestGraficas(self):
         pes4 = ttk.Frame(self.notebook)

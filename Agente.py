@@ -17,6 +17,18 @@ def getinfo(hostname,version,comunidad,indice):
         contacto = infContacto(hostname, comunidad, version)
         porCPU = porcentajeCPU(hostname, comunidad, version)
         porRAM = porcentajeRAM(hostname, comunidad, version)
+        #print(hostname)
+        #print(comunidad)
+        #print(version)
+        #print(ip)
+        #print(nombre)
+        #print(sistemaop)
+        #print(interfaces)
+        #print(tiempo)
+        #print(ubicacion)
+        #print(contacto)
+        #print(porCPU)
+        #print(porRAM)
         archivo.write(hostname + '\n')
         archivo.write(str(version) + '\n')
         archivo.write(comunidad+ '\n')
@@ -30,7 +42,7 @@ def getinfo(hostname,version,comunidad,indice):
         archivo.write(porCPU+ '\n')
         archivo.write(porRAM+'\n')
         archivo.close()
-        time.sleep(1)
+        time.sleep(2)
 
 class Agente(Conexion):
     def insertar(self, hostname, versionSNMP, puertoSNMP, comunidad, usuario):
@@ -72,30 +84,33 @@ class Agente(Conexion):
             hostname.append(row[1])
             version.append(row[2])
             comunidad.append(row[4])
-            host = hostname.__getitem__(i)
-            v = int(version.__getitem__(i))
-            com = comunidad.__getitem__(i)
-            respuesta = direccionip(host,com,v)
-
-            if(respuesta!=""):
-                estados.append('Up')
+            host = hostname[i]
+            v = int(version[i])
+            com = comunidad[i]
+            respuesta = nombreDis(host,com,v)
+            if(respuesta=='Timeout Error'):
+                estados.append("Down")
+                interfaces.append("0")
             else:
-                estados.append('Down')
-            respuesta = noInterfacesRed(host,com,v)
-            interfaces.append(respuesta)
+                estados.append("Up")
+                respuesta = noInterfacesRed(host,com,v)
+                interfaces.append(respuesta)
+            i+=1
         resultadoGrup = []
         j=0
         for interface in interfaces:
             resultadoInd=[]
-            for i in range(0,int(interface)-1):
-                resultado = int(estatusInterfaces(hostname.__getitem__(j),comunidad.__getitem__(j),version.__getitem__(j),i+1))
+            for i in range(0,int(interface)):
+                resultado = int(estatusInterfaces(hostname[j],comunidad[j],version[j],i+1))
                 if(resultado==1):
                     resultadoInd.append("Up")
                 elif(resultado==2):
                     resultadoInd.append("Down")
                 elif(resultado==3):
                     resultadoInd.append("Testing")
-            j=j+1
+                else:
+                    resultadoInd.append("Unknown")
+            j+=1
             resultadoGrup.append(resultadoInd)
 
         return [dispositivosMonitorizados, estados, interfaces, resultadoGrup]
