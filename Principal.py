@@ -4,7 +4,9 @@ from tkinter import ttk
 from tkinter import messagebox
 from rrdtool1 import *
 from rrdtool2 import *
-from Graficar import *
+import rrdtool
+from MinimosCuadrados import *
+#from Graficar import *
 import time
 #from PIL import Image, ImageTk
 
@@ -12,7 +14,7 @@ def printinfo(indice, columna,pes3):
     while (1):
         lineas = []
         fila = 0
-        archivo = open("informacion" + str(indice) + ".txt", "r")
+        archivo = open("informacion/informacion" + str(indice) + ".txt", "r")
         for linea in archivo:
             lineas.append(linea)
         if (len(lineas) > 0):
@@ -70,10 +72,9 @@ def actualizarDatosGrafica():
     total_output_PaqSNMP = 0
     total_input_ICP = 0
     total_output_ICP = 0
-    session = Session(hostname='localhost', community='comunidadASR', version=2)
+    session = Session(hostname='localhost', community='nuevaSDLG', version=2)
 
     while 1:
-        print("actualizar datos")
         total_input_traffic = int(obtenerValor(monitoreosSNMP[0][1]))
         total_output_traffic = int(obtenerValor(monitoreosSNMP[0][2]))
         total_input_SegTCP = int(obtenerValor(monitoreosSNMP[1][1]))
@@ -112,7 +113,7 @@ def actualizarDatosGrafica():
 
 
 def obtenerValor(OID):
-    session = Session(hostname='localhost', community='comunidadASR', version=2)
+    session = Session(hostname='localhost', community='nuevaSDLG', version=2)
     description = str(session.get(OID))
     inicio = description.index("=")
     sub = description[inicio + 2:]
@@ -218,7 +219,12 @@ class Principal():
         self.Comunidad = StringVar()
         self.Usuario = StringVar()
         self.usuario = usr
+        self.start = IntVar()
+        self.end = IntVar()
+        self.umbral = IntVar()
+        self.archivorrd = StringVar()
         self.inicio()
+
 
     def inicio(self):
         self.notebook = ttk.Notebook(self.window)
@@ -228,7 +234,7 @@ class Principal():
         self.pestEliminarAgente()
         self.pestEstadoDispositivo()
         self.pestGraficas()
-
+        self.pestMinimoscuadrados()
         self.window.geometry("600x650")
         self.window.mainloop()
 
@@ -255,6 +261,14 @@ class Principal():
     def estadoDispositivo(self):
         agente = Agente()
         return agente.mostrarEstados(self.usuario)
+
+    def minimoscuadrados(self):
+        self.archivorrd.set("")
+        self.start.set("")
+        self.end.set("")
+        self.umbral.set("")
+        resultado = mincuad(self.archivorrd, self.start, self.end, self.umbral)
+        messagebox.showinfo("Resultados","Se llegará al umbral en: " + resultado)
 
     def pestInicio(self):
         pes0 = ttk.Frame(self.notebook)
@@ -332,26 +346,16 @@ class Principal():
         t2 = Thread(target=graficar, args=(pes4,))
         t1.start()
         t2.start()
-    """"def pestGraficas(self):
-        pes4 = ttk.Frame(self.notebook)
-        self.notebook.add(pes4, text="Gráfica de dispositivos")
-        grafica1()
-        grafica2()
-        grafica3()
-        grafica4()
-        grafica5()
-        actualizarDatos()
-        graficacion()
-        while 1:
-            g1 = PhotoImage(file="g1.png")
-            g2 = PhotoImage(file="g2.png")
-            g3 = PhotoImage(file="g3.png")
-            g4 = PhotoImage(file="g4.png")
-            g5 = PhotoImage(file="g5.png")
 
-            f1 = Label(pes4,image=g1).grid(row=0, column=0)
-            f2 = Label(pes4,image=g2).grid(row=0, column=1)
-            f3 = Label(pes4,image=g3).grid(row=1, column=0)
-            f4 = Label(pes4,image=g4).grid(row=1, column=1)
-            f5 = Label(pes4,image=g5).grid(row=2, column=0)
-            time.sleep(5)"""
+    def pestMinimoscuadrados(self):
+        pes5 = ttk.Frame(self.notebook)
+        self.notebook.add(pes5, text="Minimos cuadrados")
+        Label(pes5, text="Inicio: ").grid(row=0, column=0)
+        Entry(pes5, textvariable=self.start).grid(row=0, column=1)
+        Label(pes5, text="Final: ").grid(row=1, column=0)
+        Entry(pes5, textvariable=self.end).grid(row=1, column=1)
+        Label(pes5, text="Umbral: ").grid(row=2, column=0)
+        Entry(pes5, textvariable=self.umbral).grid(row=2, column=1)
+        Label(pes5, text="Archivo .rrd: ").grid(row=3, column=0)
+        Entry(pes5, textvariable=self.archivorrd).grid(row=3, column=1)
+        Button(pes5, text="Calcular minimos cuadrados", command=self.minimoscuadrados).grid(row=4, column=0)
