@@ -59,6 +59,154 @@ def printinfo(indice, columna,pes3):
             archivo.close()
         time.sleep(2)
 
+def actualizarDatosGrafica():
+    total_input_traffic = 0
+    total_output_traffic = 0
+    total_input_SegTCP = 0
+    total_output_SegTCP = 0
+    total_input_DatUDP = 0
+    total_output_DatUDP = 0
+    total_input_PaqSNMP = 0
+    total_output_PaqSNMP = 0
+    total_input_ICP = 0
+    total_output_ICP = 0
+    session = Session(hostname='localhost', community='comunidadASR', version=2)
+
+    while 1:
+        print("actualizar datos")
+        total_input_traffic = int(obtenerValor(monitoreosSNMP[0][1]))
+        total_output_traffic = int(obtenerValor(monitoreosSNMP[0][2]))
+        total_input_SegTCP = int(obtenerValor(monitoreosSNMP[1][1]))
+        total_output_SegTCP = int(obtenerValor(monitoreosSNMP[1][2]))
+        total_input_DatUDP = int(obtenerValor(monitoreosSNMP[2][1]))
+        total_output_DatUDP = int(obtenerValor(monitoreosSNMP[2][2]))
+        total_input_PaqSNMP = int(obtenerValor(monitoreosSNMP[3][1]))
+        total_output_PaqSNMP = int(obtenerValor(monitoreosSNMP[3][2]))
+        total_input_ICP = int(obtenerValor(monitoreosSNMP[4][1]))
+        total_output_ICP = int(obtenerValor(monitoreosSNMP[4][2]))
+
+        valor1 = "N:" + str(total_input_traffic) + ':' + str(total_output_traffic)
+        valor2 = "N:" + str(total_input_SegTCP) + ':' + str(total_output_SegTCP)
+        valor3 = "N:" + str(total_input_DatUDP) + ':' + str(total_output_DatUDP)
+        valor4 = "N:" + str(total_input_PaqSNMP) + ':' + str(total_output_PaqSNMP)
+        valor5 = "N:" + str(total_input_ICP) + ':' + str(total_output_ICP)
+
+        rrdtool.update('bdrrdtool/g1.rrd', valor1)
+        rrdtool.dump('bdrrdtool/g1.rrd', 'bdrrdtool/g1.xml')
+
+        rrdtool.update('bdrrdtool/g2.rrd', valor2)
+        rrdtool.dump('bdrrdtool/g2.rrd', 'bdrrdtool/g2.xml')
+
+        rrdtool.update('bdrrdtool/g3.rrd', valor3)
+        rrdtool.dump('bdrrdtool/g3.rrd', 'bdrrdtool/g3.xml')
+
+        rrdtool.update('bdrrdtool/g4.rrd', valor4)
+        rrdtool.dump('bdrrdtool/g4.rrd', 'bdrrdtool/g4.xml')
+
+        rrdtool.update('bdrrdtool/g5.rrd', valor5)
+        rrdtool.dump('bdrrdtool/g5.rrd', 'bdrrdtool/g5.xml')
+
+        time.sleep(1)
+
+
+
+
+def obtenerValor(OID):
+    session = Session(hostname='localhost', community='comunidadASR', version=2)
+    description = str(session.get(OID))
+    inicio = description.index("=")
+    sub = description[inicio + 2:]
+    fin = sub.index("'")
+
+    return sub[:fin]
+
+
+def graficar(pes4):
+    tiempo_actual = int(time.time())
+    tiempo_final = tiempo_actual - 86400
+    tiempo_inicial = tiempo_final - 25920000
+    fila=0
+    columna=0
+    Label(pes4, text="Graficas agente").grid(row=fila, column=columna)
+    fila += 1
+    while 1:
+        fila=1
+
+        ret1 = rrdtool.graph("graficas/g1.png",
+                             "--start", str(tiempo_actual),
+                             #                    "--end","N",
+                             "--vertical-label=Bytes/s",
+                             "DEF:inoctets=bdrrdtool/g1.rrd:inoctets:AVERAGE",
+                             "DEF:outoctets=bdrrdtool/g1.rrd:outoctets:AVERAGE",
+                             "AREA:inoctets#00FF00:In traffic",
+                             "LINE1:outoctets#0000FF:Out traffic\r")
+
+        img1 = PhotoImage(file="graficas/g1.png")
+        a1 = Label(pes4, image=img1)
+        a1.image = img1
+        a1.grid(row=fila, column=columna)
+        ret2 = rrdtool.graph("graficas/g2.png",
+                             "--start", str(tiempo_actual),
+                             #                    "--end","N",
+                             "--vertical-label=Bytes/s",
+                             "DEF:inoctets=bdrrdtool/g2.rrd:inoctets:AVERAGE",
+                             "DEF:outoctets=bdrrdtool/g2.rrd:outoctets:AVERAGE",
+                             "AREA:inoctets#00FF00:In TCP segments",
+                             "LINE1:outoctets#0000FF:Out TCP segments\r")
+        columna=1
+        img2 = PhotoImage(file="graficas/g2.png")
+        a2 = Label(pes4, image=img2)
+        a2.image = img2
+        a2.grid(row=fila, column=columna)
+        fila += 1
+        ret3 = rrdtool.graph("graficas/g3.png",
+                             "--start", str(tiempo_actual),
+                             #                    "--end","N",
+                             "--vertical-label=Bytes/s",
+                             "DEF:inoctets=bdrrdtool/g3.rrd:inoctets:AVERAGE",
+                             "DEF:outoctets=bdrrdtool/g3.rrd:outoctets:AVERAGE",
+                             "AREA:inoctets#00FF00:In UDP datagram",
+                             "LINE1:outoctets#0000FF:Out UDP datagram\r")
+        columna = 0
+        img3 = PhotoImage(file="graficas/g3.png")
+        a3 = Label(pes4, image=img3)
+        a3.image = img3
+        a3.grid(row=fila, column=columna)
+
+
+        ret4 = rrdtool.graph("graficas/g4.png",
+                             "--start", str(tiempo_actual),
+                             #                    "--end","N",
+                             "--vertical-label=Bytes/s",
+                             "DEF:inoctets=bdrrdtool/g4.rrd:inoctets:AVERAGE",
+                             "DEF:outoctets=bdrrdtool/g4.rrd:outoctets:AVERAGE",
+                             "AREA:inoctets#00FF00:In SNMP packages",
+                             "LINE1:outoctets#0000FF:Out SNMP packages\r")
+        columna = 1
+        img4 = PhotoImage(file="graficas/g4.png")
+        a4 = Label(pes4, image=img4)
+        a4.image = img4
+        a4.grid(row=fila, column=columna)
+        fila +=1
+
+        ret5 = rrdtool.graph("graficas/g5.png",
+                             "--start", str(tiempo_actual),
+                             #                    "--end","N",
+                             "--vertical-label=Bytes/s",
+                             "DEF:inoctets=bdrrdtool/g5.rrd:inoctets:AVERAGE",
+                             "DEF:outoctets=bdrrdtool/g5.rrd:outoctets:AVERAGE",
+                             "AREA:inoctets#00FF00:In ICP entries",
+                             "LINE1:outoctets#0000FF:Out ICP entries\r")
+        columna = 0
+        img5 = PhotoImage(file="graficas/g5.png")
+        a5 = Label(pes4, image=img5)
+        a5.image = img5
+        a5.grid(row=fila, column=columna)
+
+
+        time.sleep(3)
+
+
 class Principal():
 
     def __init__(self, usr):
@@ -79,9 +227,9 @@ class Principal():
         self.pestInsertarAgente()
         self.pestEliminarAgente()
         self.pestEstadoDispositivo()
-        #self.pestGraficas()
+        self.pestGraficas()
 
-        self.window.geometry("400x350")
+        self.window.geometry("600x650")
         self.window.mainloop()
 
     def insertar(self):
@@ -171,6 +319,19 @@ class Principal():
             t.start()
             columna+=5
 
+    def pestGraficas(self):
+        pes4 = ttk.Frame(self.notebook)
+        self.notebook.add(pes4, text="Gráficas")
+        grafica1()
+        grafica2()
+        grafica3()
+        grafica4()
+        grafica5()
+
+        t1 = Thread(target=actualizarDatosGrafica)
+        t2 = Thread(target=graficar, args=(pes4,))
+        t1.start()
+        t2.start()
     """"def pestGraficas(self):
         pes4 = ttk.Frame(self.notebook)
         self.notebook.add(pes4, text="Gráfica de dispositivos")
