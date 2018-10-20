@@ -70,12 +70,12 @@ def infContacto(hostname,community,version):
     return obtenerSubcadena(obtenerSesion(hostname,community,version,"get",lista_oid[6]))
 
 def estatusInterfaces(hostname, community, version, num):
-    #session = Session(hostname=hostname, community=community, version=version)
-    #try:
-    #    description = str(session.get('1.3.6.1.2.1.2.2.1.8.' + str(num)))
-    #except EasySNMPTimeoutError:
-    #    description = 'Timeout Error'
-    return "1"#obtenerSubcadena(description)
+    session = Session(hostname=hostname, community=community, version=version)
+    try:
+        description = str(session.get('1.3.6.1.2.1.2.2.1.8.' + str(num)))
+    except EasySNMPTimeoutError:
+        description = 'Timeout Error'
+    return obtenerSubcadena(description)
 
 def ifInDiscards(hostname,community, version):
     return obtenerSubcadena(obtenerSesion(hostname,community,version,"get",'1.3.6.1.2.1.2.2.1.13.1'))

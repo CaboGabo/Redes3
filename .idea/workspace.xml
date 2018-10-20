@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7af8bc03-681c-43bd-9cbe-585995762b80" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Agente.py" beforeDir="false" afterPath="$PROJECT_DIR$/Agente.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Consultadispositivo.py" beforeDir="false" afterPath="$PROJECT_DIR$/Consultadispositivo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Principal.py" beforeDir="false" afterPath="$PROJECT_DIR$/Principal.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,7 +51,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Agente.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="208">
@@ -77,14 +73,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Consultadispositivo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="77" column="14" selection-start-line="77" selection-start-column="14" selection-end-line="77" selection-end-column="14" />
+            <state relative-caret-position="118">
+              <caret line="76" column="4" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="4" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
-                <marker date="1540051519127" expanded="true" signature="2938:3037" ph="..." />
+                <marker date="1540052285942" expanded="true" signature="2930:3029" ph="..." />
               </folding>
             </state>
           </provider>
@@ -284,17 +280,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Consultadispositivo.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="77" column="14" selection-start-line="77" selection-start-column="14" selection-end-line="77" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-            <marker date="1540051519127" expanded="true" signature="2938:3037" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Agente.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
@@ -302,6 +287,17 @@
           <folding>
             <element signature="e#0#22#0" expanded="true" />
             <marker date="1540051195293" expanded="true" signature="98:100" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Consultadispositivo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="118">
+          <caret line="76" column="4" selection-start-line="76" selection-start-column="4" selection-end-line="76" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+            <marker date="1540052285942" expanded="true" signature="2930:3029" ph="..." />
           </folding>
         </state>
       </provider>
