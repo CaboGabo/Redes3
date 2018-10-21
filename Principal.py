@@ -72,7 +72,7 @@ def actualizarDatosGrafica():
     total_output_PaqSNMP = 0
     total_input_ICP = 0
     total_output_ICP = 0
-    session = Session(hostname='localhost', community='comunidadASR', version=2)
+    session = Session(hostname='localhost', community='nuevaSDLG', version=2)
 
     while 1:
         total_input_traffic = int(obtenerValor(monitoreosSNMP[0][1]))
@@ -113,7 +113,7 @@ def actualizarDatosGrafica():
 
 
 def obtenerValor(OID):
-    session = Session(hostname='localhost', community='comunidadASR', version=2)
+    session = Session(hostname='localhost', community='nuevaSDLG', version=2)
     description = str(session.get(OID))
     inicio = description.index("=")
     sub = description[inicio + 2:]
@@ -220,7 +220,7 @@ class Principal():
         self.Usuario = StringVar()
         self.usuario = usr
         self.start = StringVar()
-        self.hora = StringVar()
+        self.end = StringVar()
         self.umbral = IntVar()
         self.archivorrd = StringVar()
         self.inicio()
@@ -262,19 +262,26 @@ class Principal():
         agente = Agente()
         return agente.mostrarEstados(self.usuario)
 
-    def minimoscuadrados(self,pes5):
+    """def minimoscuadrados(self,pes5):
         minCuadBD()
         t3 = Thread(target=actualizarMinCuad)
         t4 = Thread(target=graficarMinCuad, args=(pes5,))
         t3.start()
         t4.start()
-        """self.archivorrd.set("")
+        self.archivorrd.set("")
         self.start.set("")
         self.end.set("")
         self.umbral.set("")
         #resultado = mincuad(self.archivorrd, self.start, self.end, self.umbral)
         resultado=0
         messagebox.showinfo("Resultados","Se llegará al umbral en: " + resultado)"""
+
+    def minimoscuadrados(self):
+        tiempo = mincuad(self.archivorrd.get(),self.start.get(),self.end.get(), self.umbral.get())
+        self.archivorrd.set("")
+        self.start.set("")
+        self.end.set("")
+        self.umbral.set("")
 
     def pestInicio(self):
         pes0 = ttk.Frame(self.notebook)
@@ -359,10 +366,10 @@ class Principal():
         self.notebook.add(pes5, text="Minimos cuadrados")
         Label(pes5, text="Inicio: ").grid(row=0, column=0)
         Entry(pes5, textvariable=self.start).grid(row=0, column=1)
-        Label(pes5, text="Hora: ").grid(row=1, column=0)
-        Entry(pes5, textvariable=self.hora).grid(row=1, column=1)
+        Label(pes5, text="Final: ").grid(row=1, column=0)
+        Entry(pes5, textvariable=self.end).grid(row=1, column=1)
         Label(pes5, text="Umbral: ").grid(row=2, column=0)
         Entry(pes5, textvariable=self.umbral).grid(row=2, column=1)
         Label(pes5, text="Archivo .rrd: ").grid(row=3, column=0)
         Entry(pes5, textvariable=self.archivorrd).grid(row=3, column=1)
-        Button(pes5, text="Calcular minimos cuadrados", command=self.minimoscuadrados(pes5)).grid(row=4, column=0)
+        Button(pes5, text="Calcular minimos cuadrados", command=self.minimoscuadrados).grid(row=4, column=0)
