@@ -66,8 +66,8 @@ def mincuad(archivo,inicio,final, umbral):
     predecidos= getpredict(m,b,ini,finalsegundos)
     #print(predecidos)
     #print(fechaumbral)
-    #Predecidos contiene los valores de x y y a graficar.
-    return fechaumbral
+    #Predecidos contiene los valores de x y y a graficar. Falta poner el umbral
+    return [archivo,fechaumbral]
 
 def getpredict(m,b,inicio,final):
     predecidos  = []
