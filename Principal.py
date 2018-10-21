@@ -72,7 +72,7 @@ def actualizarDatosGrafica():
     total_output_PaqSNMP = 0
     total_input_ICP = 0
     total_output_ICP = 0
-    session = Session(hostname='localhost', community='nuevaSDLG', version=2)
+    session = Session(hostname='localhost', community='comunidadASR', version=2)
 
     while 1:
         total_input_traffic = int(obtenerValor(monitoreosSNMP[0][1]))
@@ -113,7 +113,7 @@ def actualizarDatosGrafica():
 
 
 def obtenerValor(OID):
-    session = Session(hostname='localhost', community='nuevaSDLG', version=2)
+    session = Session(hostname='localhost', community='comunidadASR', version=2)
     description = str(session.get(OID))
     inicio = description.index("=")
     sub = description[inicio + 2:]
@@ -276,13 +276,13 @@ class Principal():
         messagebox.showinfo("Resultados","Se llegará al umbral en: " + resultado)"""
 
     def minimoscuadrados(self,pestana):
-        [archivopng, tiempo] = mincuad(self.archivorrd.get(),self.start.get(),self.end.get(), self.umbral.get())
+        tiempo = mincuad(self.archivorrd.get(),self.start.get(),self.end.get(), self.umbral.get())
         self.archivorrd.set("")
         self.start.set("")
         self.end.set("")
         self.umbral.set("")
         Label(pestana, text="Momento en que pasara el umbral: "+tiempo).grid(row=5, column=0)
-        img = PhotoImage(file=archivopng)
+        img = PhotoImage(file="graficas/prediction.png")
         a1 = Label(pestana, image=img)
         a1.image = img
         a1.grid(row=6, column=0)
