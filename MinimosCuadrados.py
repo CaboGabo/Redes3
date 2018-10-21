@@ -157,8 +157,6 @@ def actualizarMinCuad():
         rrdtool.update("bdrrdtool/trend.rrd", valor)
         #rrdtool.dump(archivo, 'bdrrdtool/trend.xml')
         time.sleep(1)
-
-
 def graficarMinCuad(pes5):
     ultima_lectura = int(rrdtool.last("bdrrdtool/trend.rrd"))
     tiempo_final = ultima_lectura

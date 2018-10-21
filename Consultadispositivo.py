@@ -59,7 +59,7 @@ def tiempoUltimoReinicio(hostname,community,version):
     num= milisegundos/100
     hor = (int(num / 3600))
     minu = int((num - (hor * 3600)) / 60)
-    seg = num - ((hor * 3600) + (minu * 60))
+    seg = int(num - ((hor * 3600) + (minu * 60)))
     tiempo=str(hor) + "h " + str(minu) + "m " + str(seg) + "s"
     return tiempo
 
@@ -86,5 +86,6 @@ def porcentajeCPU(hostname,community,version):
 def porcentajeRAM(hostname,community,version):
     ramusada = int(obtenerSubcadena(obtenerSesion(hostname,community, version, "get",rendimientoSNMP[1])))
     ramtotal = int(obtenerSubcadena(obtenerSesion(hostname,community, version, "get",rendimientoSNMP[2])))
+
     porcentaje = int((ramusada*100)/ramtotal)
     return str(porcentaje)

@@ -1,48 +1,8 @@
 from Conexion import *
-from Consultadispositivo import *
 from threading import Thread
+from hilos import *
 import time
 
-
-def getinfo(hostname,version,comunidad,indice):
-
-    while(1):
-        archivo = open("informacion"+str(indice)+".txt", "w")
-        ip = direccionip(hostname, comunidad, version)
-        nombre = nombreDis(hostname, comunidad, version)
-        sistemaop = so(hostname, comunidad, version)
-        interfaces = noInterfacesRed(hostname, comunidad, version)
-        tiempo = tiempoUltimoReinicio(hostname, comunidad, version)
-        ubicacion = ubicacionFisica(hostname, comunidad, version)
-        contacto = infContacto(hostname, comunidad, version)
-        porCPU = porcentajeCPU(hostname, comunidad, version)
-        porRAM = porcentajeRAM(hostname, comunidad, version)
-        #print(hostname)
-        #print(comunidad)
-        #print(version)
-        #print(ip)
-        #print(nombre)
-        #print(sistemaop)
-        #print(interfaces)
-        #print(tiempo)
-        #print(ubicacion)
-        #print(contacto)
-        #print(porCPU)
-        #print(porRAM)
-        archivo.write(hostname + '\n')
-        archivo.write(str(version) + '\n')
-        archivo.write(comunidad+ '\n')
-        archivo.write(ip + '\n')
-        archivo.write(nombre + '\n')
-        archivo.write(sistemaop + '\n')
-        archivo.write(interfaces + '\n')
-        archivo.write(tiempo+'\n')
-        archivo.write(ubicacion+'\n')
-        archivo.write(contacto+ '\n')
-        archivo.write(porCPU+ '\n')
-        archivo.write(porRAM+'\n')
-        archivo.close()
-        time.sleep(2)
 
 class Agente(Conexion):
     def insertar(self, hostname, versionSNMP, puertoSNMP, comunidad, usuario):

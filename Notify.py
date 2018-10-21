@@ -4,17 +4,17 @@ from email.mime.multipart import MIMEMultipart
 
 COMMASPACE = ', '
 # Define params
-rrdpath = '/home/francisco/Escritorio/OBSERVATORIUM/bdrrdtool/'
-pngpath = '/home/francisco/Escritorio/OBSERVATORIUM/graficas/'
+rrdpath = '/home/cabogabo/PycharmProjects/observatoriumPantitlan/bdrrdtool/'
+pngpath = '/home/cabogabo/PycharmProjects/observatoriumPantitlan/graficas/'
 fname = 'gCPU.rrd'
 fname1 = 'gRAM.rrd'
 width = '500'
 height = '200'
-mailsender = "lmethod1234@gmail.com"
+mailsender = "observatoriumpantitlan@gmail.com"
 #mailreceip = "gabo.alejandro.huitron@gmail.com"
-mailreceip = "lmethod1234@gmail.com"
+mailreceip = "observatoriumpantitlan@gmail.com"
 mailserver = 'smtp.gmail.com: 587'
-password = '.l.'
+password = 'observatorium1234'
 
 def send_alert_attached(subject, tipo):
     """ Will send e-mail, attaching png
@@ -38,4 +38,3 @@ def send_alert_attached(subject, tipo):
 
     mserver.sendmail(mailsender, mailreceip, msg.as_string())
     mserver.quit()
-
