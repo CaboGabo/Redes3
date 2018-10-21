@@ -8,7 +8,8 @@ import rrdtool
 from MinimosCuadrados import *
 #from Graficar import *
 import time
-#from PIL import Image, ImageTk
+from Notify import send_alert_attached
+
 
 def printinfo(indice, columna,pes3):
     while (1):
@@ -123,9 +124,9 @@ def obtenerValor(OID):
 
 
 def graficar(pes4):
-    tiempo_actual = int(time.time())
-    tiempo_final = tiempo_actual - 86400
-    tiempo_inicial = tiempo_final - 25920000
+    ultima_lectura = int(rrdtool.last("bdrrdtool/g1.rrd"))
+    tiempo_final = ultima_lectura
+    tiempo_incial = tiempo_final - 1300
     fila=0
     columna=0
     Label(pes4, text="Graficas agente").grid(row=fila, column=columna)
@@ -134,7 +135,7 @@ def graficar(pes4):
         fila=1
 
         ret1 = rrdtool.graph("graficas/g1.png",
-                             "--start", str(tiempo_actual),
+                             "--start", str(tiempo_incial),
                              #                    "--end","N",
                              "--vertical-label=Bytes/s",
                              "DEF:inoctets=bdrrdtool/g1.rrd:inoctets:AVERAGE",
@@ -147,7 +148,7 @@ def graficar(pes4):
         a1.image = img1
         a1.grid(row=fila, column=columna)
         ret2 = rrdtool.graph("graficas/g2.png",
-                             "--start", str(tiempo_actual),
+                             "--start", str(tiempo_incial),
                              #                    "--end","N",
                              "--vertical-label=Bytes/s",
                              "DEF:inoctets=bdrrdtool/g2.rrd:inoctets:AVERAGE",
@@ -161,7 +162,7 @@ def graficar(pes4):
         a2.grid(row=fila, column=columna)
         fila += 1
         ret3 = rrdtool.graph("graficas/g3.png",
-                             "--start", str(tiempo_actual),
+                             "--start", str(tiempo_incial),
                              #                    "--end","N",
                              "--vertical-label=Bytes/s",
                              "DEF:inoctets=bdrrdtool/g3.rrd:inoctets:AVERAGE",
@@ -176,7 +177,7 @@ def graficar(pes4):
 
 
         ret4 = rrdtool.graph("graficas/g4.png",
-                             "--start", str(tiempo_actual),
+                             "--start", str(tiempo_incial),
                              #                    "--end","N",
                              "--vertical-label=Bytes/s",
                              "DEF:inoctets=bdrrdtool/g4.rrd:inoctets:AVERAGE",
@@ -191,7 +192,7 @@ def graficar(pes4):
         fila +=1
 
         ret5 = rrdtool.graph("graficas/g5.png",
-                             "--start", str(tiempo_actual),
+                             "--start", str(tiempo_incial),
                              #                    "--end","N",
                              "--vertical-label=Bytes/s",
                              "DEF:inoctets=bdrrdtool/g5.rrd:inoctets:AVERAGE",
@@ -206,6 +207,81 @@ def graficar(pes4):
 
 
         time.sleep(3)
+
+
+def actualizarRAMCPU():
+    carga_CPU = 0
+    while 1:
+        uso_CPU = int(obtenerValor(rendimientoSNMP[0]))
+        valor = "N:" + str(uso_CPU)
+        rrdtool.update("bdrrdtool/gCPU.rrd", valor)
+
+        ramusada = int(obtenerValor(rendimientoSNMP[1]))
+        ramtotal = int(obtenerValor(rendimientoSNMP[2]))
+        porcentaje = int((ramusada * 100) / ramtotal)
+        valor2 = "N:" +str(porcentaje)
+        rrdtool.update("bdrrdtool/gRAM.rrd",valor2)
+
+        if(uso_CPU>5 and uso_CPU<50):
+            send_alert_attached("Sobrepasa Umbral ready del uso del CPU","CPU")
+        elif(uso_CPU>50 and uso_CPU<60):
+            send_alert_attached("Sobrepasa Umbral set del uso del CPU","CPU")
+        elif(uso_CPU>60):
+            send_alert_attached("Sobrepasa Umbral go del uso del CPU","CPU")
+
+        if (porcentaje > 45 and porcentaje < 50):
+            send_alert_attached("Sobrepasa Umbral ready del uso de la RAM", "RAM")
+        elif (porcentaje > 50 and porcentaje < 60):
+            send_alert_attached("Sobrepasa Umbral set del uso de la RAM", "RAM")
+        elif (porcentaje > 60):
+            send_alert_attached("Sobrepasa Umbral go del uso de la RAM", "RAM")
+
+        time.sleep(1)
+
+def graficarRAMCPU(pes6):
+    ultima_lectura = int(rrdtool.last("bdrrdtool/gCPU.rrd"))
+    tiempo_final = ultima_lectura
+    tiempo_inicial = tiempo_final - 1800
+    while 1:
+        ret = rrdtool.graphv("graficas/gCPU.png",
+                             "--start",str(tiempo_inicial),
+                             "--vertical-label=Carga CPU",
+                             "--title=Uso de CPU",
+                             "--color", "ARROW#009900",
+                             '--vertical-label', "Uso de CPU (%)",
+                             '--lower-limit', '0',
+                             '--upper-limit', '100',
+                             "DEF:carga=bdrrdtool/gCPU.rrd:CPUload:AVERAGE",
+                             "AREA:carga#00FF00:CPU load",
+                             "LINE1:30",
+                             "AREA:5#ff000022:stack",
+                             "HRULE:45#0000ff:ready",
+                             "HRULE:50#FFFF00:set",
+                             "HRULE:60#FF0000:go")
+        img1 = PhotoImage(file="graficas/gCPU.png")
+        a1 = Label(pes6, image=img1)
+        a1.image = img1
+        a1.grid(row=0, column=0)
+        ret = rrdtool.graphv("graficas/gRAM.png",
+                             "--start", str(tiempo_inicial),
+                             "--vertical-label=Carga RAM",
+                             "--title=Uso de RAM",
+                             "--color", "ARROW#009900",
+                             '--vertical-label', "Uso de RAM (%)",
+                             '--lower-limit', '0',
+                             '--upper-limit', '100',
+                             "DEF:carga=bdrrdtool/gRAM.rrd:RAMload:AVERAGE",
+                             "AREA:carga#00FF00:RAM load",
+                             "LINE1:30",
+                             "AREA:5#ff000022:stack",
+                             "HRULE:45#0000ff:ready",
+                             "HRULE:50#FFFF00:set",
+                             "HRULE:60#FF0000:go")
+        img2 = PhotoImage(file="graficas/gRAM.png")
+        a2 = Label(pes6, image=img2)
+        a2.image = img2
+        a2.grid(row=1, column=0)
+        time.sleep(1)
 
 
 class Principal():
@@ -234,6 +310,7 @@ class Principal():
         self.pestEstadoDispositivo()
         self.pestGraficas()
         self.pestMinimoscuadrados()
+        self.pesLineaBase()
         self.window.geometry("600x650")
         self.window.mainloop()
 
@@ -364,6 +441,7 @@ class Principal():
         t1.start()
         t2.start()
 
+
     def pestMinimoscuadrados(self):
         pes5 = ttk.Frame(self.notebook)
 
@@ -377,3 +455,14 @@ class Principal():
         Label(pes5, text="Archivo .rrd: ").grid(row=3, column=0)
         Entry(pes5, textvariable=self.archivorrd).grid(row=3, column=1)
         Button(pes5, text="Calcular minimos cuadrados", command=lambda: self.minimoscuadrados(pes5)).grid(row=4, column=0)
+
+    def pesLineaBase(self):
+        pes6 = ttk.Frame(self.notebook)
+        self.notebook.add(pes6, text="Línea Base")
+        graficaCPU()
+        graficaRAM()
+
+        h1 = Thread(target=actualizarRAMCPU)
+        h2 = Thread(target=graficarRAMCPU, args=(pes6,))
+        h1.start()
+        h2.start()

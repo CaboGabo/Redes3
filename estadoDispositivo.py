@@ -9,8 +9,10 @@ lista_oid = [
             '1.3.6.1.2.1.2.2.1.10', #No. total de octetos recibidos (este no) hacer walk
             '1.3.6.1.2.1.2.2.1.16'] #No. total de octetos enviados (este no) hacer walk
 
-rendimientoSNMP = ['1.3.6.1.4.1.2021.11.9.0', #porcentaje del cpu
-                   '1.3.6.1.4.1.2021.4.6.0'] #porcentaje de la ram
+rendimientoSNMP = ['1.3.6.1.4.1.2021.11.9.0', # porcentaje del cpu
+                   '1.3.6.1.4.1.2021.4.6.0', # ram usada
+                    '1.3.6.1.4.1.2021.4.5.0' # ram total
+                   ]
 
 monitoreosSNMP = [['trafico',
                    '1.3.6.1.2.1.2.2.1.10.3',

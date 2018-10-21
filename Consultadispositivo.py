@@ -84,4 +84,7 @@ def porcentajeCPU(hostname,community,version):
     return obtenerSubcadena(obtenerSesion(hostname,community, version, "get",rendimientoSNMP[0]))
 
 def porcentajeRAM(hostname,community,version):
-    return obtenerSubcadena(obtenerSesion(hostname,community, version, "get",rendimientoSNMP[1]))
+    ramusada = int(obtenerSubcadena(obtenerSesion(hostname,community, version, "get",rendimientoSNMP[1])))
+    ramtotal = int(obtenerSubcadena(obtenerSesion(hostname,community, version, "get",rendimientoSNMP[2])))
+    porcentaje = int((ramusada*100)/ramtotal)
+    return str(porcentaje)
