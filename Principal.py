@@ -264,8 +264,8 @@ class Principal():
 
     def minimoscuadrados(self,pes5):
         minCuadBD()
-        t3 = Thread(target=actualizarMinCuad,args=(self.start,))
-        t4 = Thread(target=graficarMinCuad, args=(pes5,self.archivorrd.get(),getStartRRD(self.start.get(),self.hora.get()),))
+        t3 = Thread(target=actualizarMinCuad)
+        t4 = Thread(target=graficarMinCuad, args=(pes5,))
         t3.start()
         t4.start()
         """self.archivorrd.set("")

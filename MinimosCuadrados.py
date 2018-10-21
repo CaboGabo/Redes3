@@ -42,7 +42,7 @@ def obtenerValorCPU(OID):
 
     return sub[:fin]
 
-def actualizarMinCuad(archivo):
+def actualizarMinCuad():
     carga_CPU = 0
 
     while 1:
@@ -50,24 +50,24 @@ def actualizarMinCuad(archivo):
 
         valor = "N:" + str(carga_CPU)
         # print(valor)
-        rrdtool.update(archivo, valor)
+        rrdtool.update("bdrrdtool/trend.rrd", valor)
         #rrdtool.dump(archivo, 'bdrrdtool/trend.xml')
         time.sleep(1)
 
-def graficarMinCuad(pes5,archivo,tiempo_dado):
-    ultima_lectura = int(rrdtool.last(archivo))
+def graficarMinCuad(pes5):
+    ultima_lectura = int(rrdtool.last("bdrrdtool/trend.rrd"))
     tiempo_final = ultima_lectura
     tiempo_incial = tiempo_final - 1300
     while 1:
         ret = rrdtool.graph("graficas/trend.png",
-                            "--start", str(tiempo_dado),
+                            "--start", str(tiempo_incial),
                             "--vertical-label=Carga CPU",
                             "--title=Uso de CPU",
                             "--color", "ARROW#009900",
                             '--vertical-label', "Uso de CPU (%)",
                             '--lower-limit', '0',
                             '--upper-limit', '100',
-                            "DEF:carga="+archivo+":CPUload:AVERAGE",
+                            "DEF:carga=bdrrdtool/trend.rrd:CPUload:AVERAGE",
                             "AREA:carga#00FF00:CPU load",
 
                             "LINE1:30",
