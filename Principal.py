@@ -225,7 +225,6 @@ class Principal():
         self.archivorrd = StringVar()
         self.inicio()
 
-
     def inicio(self):
         self.notebook = ttk.Notebook(self.window)
         self.notebook.pack(fill='both', expand='yes')
@@ -276,12 +275,17 @@ class Principal():
         resultado=0
         messagebox.showinfo("Resultados","Se llegará al umbral en: " + resultado)"""
 
-    def minimoscuadrados(self):
-        tiempo = mincuad(self.archivorrd.get(),self.start.get(),self.end.get(), self.umbral.get())
+    def minimoscuadrados(self,pestana):
+        [archivopng, tiempo] = mincuad(self.archivorrd.get(),self.start.get(),self.end.get(), self.umbral.get())
         self.archivorrd.set("")
         self.start.set("")
         self.end.set("")
         self.umbral.set("")
+        Label(pestana, text="Momento en que pasara el umbral: "+tiempo).grid(row=5, column=0)
+        img = PhotoImage(file=archivopng)
+        a1 = Label(pestana, image=img)
+        a1.image = img
+        a1.grid(row=6, column=0)
 
     def pestInicio(self):
         pes0 = ttk.Frame(self.notebook)
@@ -372,4 +376,4 @@ class Principal():
         Entry(pes5, textvariable=self.umbral).grid(row=2, column=1)
         Label(pes5, text="Archivo .rrd: ").grid(row=3, column=0)
         Entry(pes5, textvariable=self.archivorrd).grid(row=3, column=1)
-        Button(pes5, text="Calcular minimos cuadrados", command=self.minimoscuadrados).grid(row=4, column=0)
+        Button(pes5, text="Calcular minimos cuadrados", command=lambda: self.minimoscuadrados(pes5)).grid(row=4, column=0)
