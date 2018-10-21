@@ -4,15 +4,88 @@ from tkinter import *
 from easysnmp import Session
 from datetime import datetime
 
-"""def mincuad(archivo,inicio,final, umbral):
-    #No se como hacer que salga el inicio ni el final asi que solo lo pongo asi yolo
-    startStop, names, values = rrdtool.fetch(archivo,"average", '-s',inicio, '-e', final)
-    for v in values:
-        print(v)
+def getxvalues(muestras,inicio):
+    xvalues = []
+    sig = 0
+    for i in range(0,muestras):
+        sig = inicio + (i * 60)
+        xvalues.append(sig)
+
+    return [xvalues, sig+60]
+
+def getvaluemedia(values,media):
+    valuemedia = []
+    for value in values:
+        valuemedia.append(value-media)
+    return valuemedia
+
+def producto(valores1,valores2):
+    prod = []
+    for i in range(0,len(valores1)):
+        prod.append(valores1[i]*valores2[i])
+    return prod
+
+
+def mincuad(archivo,inicio,final, umbral):
+    struct_fecha_inicio = time.strptime(inicio,"%Y-%m-%dT%H:%M:%S")
+    iniciosegundos = int(time.mktime(struct_fecha_inicio))
+    if(final==""):
+        finalsegundos = int(time.time())
+    else:
+        struct_fecha_final = time.strptime(final, "%Y-%m-%dT%H:%M:%S")
+        finalsegundos = int(time.mktime(struct_fecha_final))
+
+    [startStop, names, values] = rrdtool.fetch(archivo, 'AVERAGE', '-s', str(iniciosegundos), '-e',
+                                           str(finalsegundos))
+
+    #print('Final segundos: ',finalsegundos)
+    values = [v[0] for v in values if v[0] is not None]
+    muestras = len(values)
+    [xvalues, ini] = getxvalues(muestras,iniciosegundos)
+    yvalues = values
+
+    sumax = sum(xvalues)
+    sumay = sum(yvalues)
+
+    xmedia = sumax/muestras
+    ymedia = sumay/muestras
+
+    xxmedia = getvaluemedia(xvalues,xmedia)
+    yymedia = getvaluemedia(yvalues,ymedia)
+
+    prod = producto(xxmedia,yymedia)
+    xxmediacuadrado = producto(xxmedia,xxmedia)
+
+    m = sum(prod)/sum(xxmediacuadrado)
+    b = ymedia-(m*xmedia)
+
+    resultado = int((umbral-b)/m)
+
+    fechaumbral= time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(resultado))
+
+    predecidos= getpredict(m,b,ini,finalsegundos)
+    #print(predecidos)
+    #print(fechaumbral)
+    #Predecidos contiene los valores de x y y a graficar.
+    return fechaumbral
+
+def getpredict(m,b,inicio,final):
+    predecidos  = []
+    i=1
+    y = (m*inicio)+b
+    predecidos.append([inicio,y])
+    suma = inicio
+    while(y<=100 and suma<=final):
+        suma= inicio+(i*60)
+        y = (m*suma)+b
+        predecidos.append([suma,y])
+        i+=1
+
+    return predecidos
 """
 def minCuadBD():
     ret = rrdtool.create("bdrrdtool/trend.rrd",
-                         "--start", 'N',
+                         "--start", 'N', 1540088040
                          "--step", '60',
                          "DS:CPUload:GAUGE:600:U:U",
                          "RRA:AVERAGE:0.5:1:24")
@@ -34,7 +107,7 @@ def getStartRRD(fecha_ingresada,hora_ingresada):# la fecha de la maestra es 9/10
 
 
 def obtenerValorCPU(OID):
-    session = Session(hostname='localhost', community='comunidadASR', version=2)
+    session = Session(hostname='localhost', community='nuevaSDLG', version=2)
     description = str(session.get(OID))
     inicio = description.index("=")
     sub = description[inicio + 2:]
@@ -91,5 +164,4 @@ def graficarMinCuad(pes5):
         a1.image = img1
         a1.grid(row=6, column=0)
 
-        time.sleep(2)
-
+time.sleep(2)"""
