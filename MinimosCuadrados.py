@@ -46,9 +46,9 @@ def mincuad(archivo,inicio,final,umbral):
     tiempoInicialPredicciones = x[0]
     [predecidosx, predecidosy] = obtenerPredecidos(m,b,tiempoInicialPredicciones, finalsegundos, steps)
 
-    #archivorrdpredecido = crearGrafica(predecidosy,tiempoInicialPredicciones, steps, names,archivo)
-    #actualizarGrafica(archivorrdpredecido,predecidosx,predecidosy)
-    #graficar(archivo,tiempoInicialPredicciones)
+    archivorrdpredecido = crearGrafica(predecidosy,tiempoInicialPredicciones, steps, names,archivo)
+    actualizarGrafica(archivorrdpredecido,predecidosx,predecidosy)
+    graficar(archivo,tiempoInicialPredicciones,predecidosx[len(predecidosx)-1],umbral)
 
     return fechaumbral
 
@@ -65,15 +65,16 @@ def crearGrafica(valoresy, tiempoInicial, steps, names,archivo):
 def actualizarGrafica(archivo, predecidosx,predecidosy):
     i=0
     for predecido in predecidosy:
-        valor = str(predecidosx[i])+':'+str(predecido)
+        valor = str(predecidosx[i]+60)+':'+str(predecido)
         print(valor)
         rrdtool.update(archivo, valor)
         i+=1
 
-def graficar(archivo,inicio):
+def graficar(archivo,inicio,final,umbral):
+
     ret = rrdtool.graph("graficas/prediction.png",
                         "--start", str(inicio),
-                        "--end", str(rrdtool.last(archivo)),
+                        "--end", str(final),
                         "--vertical-label=Carga CPU",
                         "--title=Uso de CPU",
                         "--color", "ARROW#009900",
@@ -83,6 +84,7 @@ def graficar(archivo,inicio):
                         "DEF:carga=" + archivo + ":CPUload:AVERAGE",
                         "AREA:carga#00FF00:CPU load",
                         "LINE1:30",
+                        "HRULE:"+str(umbral)+"#0000ff:Umbral",
                         "AREA:5#ff000022:stack",
                         "VDEF:CPUlast=carga,LAST",
                         "VDEF:CPUmin=carga,MINIMUM",
