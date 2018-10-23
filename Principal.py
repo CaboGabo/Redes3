@@ -5,6 +5,7 @@ from rrdtool1 import *
 from rrdtool2 import *
 from MinimosCuadrados import *
 from hilos import *
+from holtwinters import *
 #from Graficar import *
 from tkinter import *
 
@@ -23,6 +24,9 @@ class Principal():
         self.end = StringVar()
         self.umbral = IntVar()
         self.archivorrd = StringVar()
+        self.alpha = DoubleVar()
+        self.beta = DoubleVar()
+        self.gamma = DoubleVar()
         self.inicio()
 
     def inicio(self):
@@ -33,7 +37,9 @@ class Principal():
         self.pestEliminarAgente()
         self.pestEstadoDispositivo()
         self.pestGraficas()
+        self.pesHoltWinters()
         self.pestMinimoscuadrados()
+
         self.window.geometry("600x650")
         self.window.mainloop()
 
@@ -72,6 +78,9 @@ class Principal():
         a1 = Label(pestana, image=img)
         a1.image = img
         a1.grid(row=6, column=0)
+
+    def holtwinters(self,pes):
+        crearBDRRDHW(self.alpha.get(),self.beta.get(),self.gamma.get())
 
     def pestInicio(self):
         pes0 = ttk.Frame(self.notebook)
@@ -165,3 +174,16 @@ class Principal():
         Label(pes5, text="Archivo .rrd: ").grid(row=3, column=0)
         Entry(pes5, textvariable=self.archivorrd).grid(row=3, column=1)
         Button(pes5, text="Calcular minimos cuadrados", command=lambda: self.minimoscuadrados(pes5)).grid(row=4, column=0)
+
+
+    def pesHoltWinters(self):
+        pes6 = ttk.Frame(self.notebook)
+
+        self.notebook.add(pes6, text="Holt Winters")
+        Label(pes6, text="Alpha: ").grid(row=0, column=0)
+        Entry(pes6, textvariable=self.alpha).grid(row=0, column=1)
+        Label(pes6, text="Beta: ").grid(row=1, column=0)
+        Entry(pes6, textvariable=self.beta).grid(row=1, column=1)
+        Label(pes6, text="Gamma: ").grid(row=2, column=0)
+        Entry(pes6, textvariable=self.gamma).grid(row=2, column=1)
+        Button(pes6, text="Hot Wheels", command=lambda: self.holtwinters(pes6)).grid(row=3, column=0)

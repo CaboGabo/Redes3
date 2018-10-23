@@ -1,7 +1,6 @@
 from Conexion import *
 from threading import Thread
 from hilos import *
-import time
 
 
 class Agente(Conexion):
@@ -56,11 +55,12 @@ class Agente(Conexion):
                 respuesta = noInterfacesRed(host,com,v)
                 interfaces.append(respuesta)
             i+=1
+        print(interfaces)
         resultadoGrup = []
         j=0
         for interface in interfaces:
             resultadoInd=[]
-            for i in range(0,int(interface)):
+            for i in range(0,int(interface)-1):
                 resultado = int(estatusInterfaces(hostname[j],comunidad[j],version[j],i+1))
                 if(resultado==1):
                     resultadoInd.append("Up")

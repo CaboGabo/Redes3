@@ -44,11 +44,11 @@ def mincuad(archivo,inicio,final,umbral):
 
 
     tiempoInicialPredicciones = x[0]
-    [predecidosx, predecidosy] = obtenerPredecidos(m,b,tiempoInicialPredicciones, finalsegundos, steps)
+    [predecidosx, predecidosy] = obtenerPredecidos(m,b,tiempoInicialPredicciones, umbral, steps)
 
-    #archivorrdpredecido = crearGrafica(predecidosy,tiempoInicialPredicciones, steps, names,archivo)
-    #actualizarGrafica(archivorrdpredecido,predecidosx,predecidosy)
-    #graficar(archivo,tiempoInicialPredicciones)
+    archivorrdpredecido = crearGrafica(predecidosy,tiempoInicialPredicciones, steps, names,archivo)
+    actualizarGrafica(archivorrdpredecido,predecidosx,predecidosy)
+    graficar(archivo,tiempoInicialPredicciones,predecidosx[len(predecidosx)-1],umbral)
 
     return fechaumbral
 
@@ -65,15 +65,18 @@ def crearGrafica(valoresy, tiempoInicial, steps, names,archivo):
 def actualizarGrafica(archivo, predecidosx,predecidosy):
     i=0
     for predecido in predecidosy:
-        valor = str(predecidosx[i])+':'+str(predecido)
-        print(valor)
+        valor = str(predecidosx[i]+60)+':'+str(predecido)
+        #print(valor)
         rrdtool.update(archivo, valor)
         i+=1
 
-def graficar(archivo,inicio):
+    rrdtool.dump(archivo, 'trend.xml')
+
+def graficar(archivo,inicio,final,umbral):
+
     ret = rrdtool.graph("graficas/prediction.png",
                         "--start", str(inicio),
-                        "--end", str(rrdtool.last(archivo)),
+                        "--end", str(final),
                         "--vertical-label=Carga CPU",
                         "--title=Uso de CPU",
                         "--color", "ARROW#009900",
@@ -81,8 +84,8 @@ def graficar(archivo,inicio):
                         '--lower-limit', '0',
                         '--upper-limit', '100',
                         "DEF:carga=" + archivo + ":CPUload:AVERAGE",
-                        "AREA:carga#00FF00:CPU load",
                         "LINE1:30",
+                        "HRULE:"+str(umbral)+"#0000ff:Umbral",
                         "AREA:5#ff000022:stack",
                         "VDEF:CPUlast=carga,LAST",
                         "VDEF:CPUmin=carga,MINIMUM",
@@ -99,7 +102,7 @@ def graficar(archivo,inicio):
                         "LINE2:avg2#FFBB00")
 
 
-def obtenerPredecidos(m,b,tiempoInicial, tiempoFinal, steps):
+def obtenerPredecidos(m,b,tiempoInicial, umbral, steps):
     x = []
     y = []
 
@@ -109,7 +112,7 @@ def obtenerPredecidos(m,b,tiempoInicial, tiempoFinal, steps):
     x.append(contador)
     y.append(yvalor)
     i=1
-    while(yvalor<=100 and contador<=tiempoFinal):
+    while(yvalor<=umbral):
         contador = tiempoInicial+(i*steps)
         yvalor = (m*contador) + b
 
