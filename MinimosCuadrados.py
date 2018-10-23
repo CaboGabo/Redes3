@@ -66,19 +66,12 @@ def actualizarGrafica(archivo, predecidosx,predecidosy):
     i=0
     for predecido in predecidosy:
         valor = str(predecidosx[i]+60)+':'+str(predecido)
-<<<<<<< HEAD
         #print(valor)
         rrdtool.update(archivo, valor)
         i+=1
 
     rrdtool.dump(archivo, 'trend.xml')
 
-=======
-        print(valor)
-        rrdtool.update(archivo, valor)
-        i+=1
-
->>>>>>> 7ca3b7cce0f8fa688df903cddd2c8ec7be083686
 def graficar(archivo,inicio,final,umbral):
 
     ret = rrdtool.graph("graficas/prediction.png",
