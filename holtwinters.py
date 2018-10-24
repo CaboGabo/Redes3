@@ -1,6 +1,7 @@
 import rrdtool
 from tkinter import *
 #from NotifyHW import *
+from NotifyHW import *
 from getSNMP import *
 from easysnmp import Session, EasySNMPTimeoutError
 import time
@@ -39,6 +40,7 @@ def crearBDRRDHW(alpha,beta,gamma):
         rrdtool.error()
 
 def actualizarHW():
+    a = NotifyHW()
 
     while 1:
         # total_input_traffic = int(consultaSNMP('comunidadASR', 'localhost', '1.3.6.1.2.1.2.2.1.10.1'))
@@ -49,30 +51,51 @@ def actualizarHW():
 
         valor = "N:" + str(total_input_traffic) + ':' + str(total_output_traffic)
         ret = rrdtool.update("bdrrdtool/netPred.rrd", valor)
-        #rrdtool.dump(fname, 'netP.xml')
-        time.sleep(1)
-        #print(check_aberration(rrdpath, fname))
+        # rrdtool.dump(fname, 'netP.xml')
 
+        # check_aberration('bdrrdtool/', 'netPred.rrd')
+
+        # List of new aberrations
+        begin_ab = []
+        # List of gone aberrations
+        end_ab = []
+        # List files and generate charts
+        for a.fname in os.listdir(a.rrdpath):
+            a.gen_image(a.rrdpath, a.pngpath, a.fname, a.width, a.height, a.begdate, a.enddate)
+        # Now check files for beiaberrations
+        for fname in os.listdir(a.rrdpath):
+            ab_status = a.check_aberration(a.rrdpath, a.fname)
+            print(ab_status)
+            if ab_status == 1:
+                begin_ab.append(a.fname)
+            if ab_status == 2:
+                end_ab.append(a.fname)
+        if len(begin_ab) > 0:
+            a.send_alert_attached('New aberrations detected', begin_ab)
+        if len(end_ab) > 0:
+            a.send_alert_attached('Abberations gone', end_ab)
+
+        time.sleep(1)
     if ret:
         print(rrdtool.error())
         time.sleep(300)
 
 def graficarHW(alpha,pestana):
-    fname = "bdrrdtool/netPred.rrd"
+    fname1 = "bdrrdtool/netPred.rrd"
     title = "Deteccion de comportamiento anomalo, valor de Alpha "+str(alpha)
-    endDate = rrdtool.last(fname)
+    endDate = rrdtool.last(fname1)
     begDate = endDate - 1800
     while 1:
-        rrdtool.tune(fname, '--alpha', '0.1')
+        rrdtool.tune(fname1, '--alpha', '0.1')
         ret = rrdtool.graph("graficas/predHW.png",
                             '--start', str(begDate), '--title=' + title,
                             "--vertical-label=Bytes/s",
                             '--slope-mode',
-                            "DEF:obs=" + fname + ":inoctets:AVERAGE",
-                            "DEF:outoctets=" + fname + ":outoctets:AVERAGE",
-                            "DEF:pred=" + fname + ":inoctets:HWPREDICT",
-                            "DEF:dev=" + fname + ":inoctets:DEVPREDICT",
-                            "DEF:fail=" + fname + ":inoctets:FAILURES",
+                            "DEF:obs=" + fname1 + ":inoctets:AVERAGE",
+                            "DEF:outoctets=" + fname1 + ":outoctets:AVERAGE",
+                            "DEF:pred=" + fname1 + ":inoctets:HWPREDICT",
+                            "DEF:dev=" + fname1 + ":inoctets:DEVPREDICT",
+                            "DEF:fail=" + fname1 + ":inoctets:FAILURES",
 
                             # "RRA:DEVSEASONAL:1d:0.1:2",
                             # "RRA:DEVPREDICT:5d:5",
@@ -97,10 +120,9 @@ def graficarHW(alpha,pestana):
         time.sleep(1)
 
 def obtenerValor(OID):
-    session = Session(hostname='localhost', community='comunidadASR', version=2)
+    session = Session(hostname='localhost', community='nuevaSDLG', version=2)
     description = str(session.get(OID))
     inicio = description.index("=")
     sub = description[inicio + 2:]
     fin = sub.index("'")
-
     return sub[:fin]
