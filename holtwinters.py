@@ -1,6 +1,5 @@
 import rrdtool
 from tkinter import *
-#from NotifyHW import *
 from NotifyHW import *
 from getSNMP import *
 from easysnmp import Session, EasySNMPTimeoutError
@@ -36,22 +35,21 @@ def crearBDRRDHW(alpha,beta,gamma):
     # a las temporadas anteriores
 
     if ret:
-        print
-        rrdtool.error()
+        print(rrdtool.error())
 
 def actualizarHW():
     a = NotifyHW()
 
     while 1:
-        # total_input_traffic = int(consultaSNMP('comunidadASR', 'localhost', '1.3.6.1.2.1.2.2.1.10.1'))
-        # total_output_traffic = int(consultaSNMP('comunidadASR', 'localhost', '1.3.6.1.2.1.2.2.1.16.1'))
+        total_input_traffic = int(consultaSNMP('comunidadASR', 'localhost', '1.3.6.1.2.1.2.2.1.10.1'))
+        total_output_traffic = int(consultaSNMP('comunidadASR', 'localhost', '1.3.6.1.2.1.2.2.1.16.1'))
 
-        total_input_traffic = int(obtenerValor('1.3.6.1.2.1.2.2.1.10.1'))
-        total_output_traffic = int(obtenerValor('1.3.6.1.2.1.2.2.1.16.1'))
+        #total_input_traffic = int(obtenerValor('1.3.6.1.2.1.2.2.1.10.1'))
+        #total_output_traffic = int(obtenerValor('1.3.6.1.2.1.2.2.1.16.1'))
 
         valor = "N:" + str(total_input_traffic) + ':' + str(total_output_traffic)
         ret = rrdtool.update("bdrrdtool/netPred.rrd", valor)
-        # rrdtool.dump(fname, 'netP.xml')
+        rrdtool.dump("bdrrdtool/netPred.rrd", 'bdrrdtool/netPred.xml')
 
         # check_aberration('bdrrdtool/', 'netPred.rrd')
 
@@ -60,16 +58,16 @@ def actualizarHW():
         # List of gone aberrations
         end_ab = []
         # List files and generate charts
-        for a.fname in os.listdir(a.rrdpath):
-            a.gen_image(a.rrdpath, a.pngpath, a.fname, a.width, a.height, a.begdate, a.enddate)
+
+        for a.fname1 in os.listdir(a.rrdpath):
+            a.gen_image(a.rrdpath, a.pngpath, a.fname1, a.width, a.height, a.begdate, a.enddate)
         # Now check files for beiaberrations
         for fname in os.listdir(a.rrdpath):
-            ab_status = a.check_aberration(a.rrdpath, a.fname)
-            print(ab_status)
+            ab_status = a.check_aberration(a.rrdpath, a.fname1)
             if ab_status == 1:
-                begin_ab.append(a.fname)
+                begin_ab.append(a.fname1)
             if ab_status == 2:
-                end_ab.append(a.fname)
+                end_ab.append(a.fname1)
         if len(begin_ab) > 0:
             a.send_alert_attached('New aberrations detected', begin_ab)
         if len(end_ab) > 0:
@@ -88,7 +86,7 @@ def graficarHW(alpha,pestana):
     while 1:
         rrdtool.tune(fname1, '--alpha', '0.1')
         ret = rrdtool.graph("graficas/predHW.png",
-                            '--start', str(begDate), '--title=' + title,
+                            '--start', str(endDate), '--title=' + title,
                             "--vertical-label=Bytes/s",
                             '--slope-mode',
                             "DEF:obs=" + fname1 + ":inoctets:AVERAGE",
@@ -120,7 +118,7 @@ def graficarHW(alpha,pestana):
         time.sleep(1)
 
 def obtenerValor(OID):
-    session = Session(hostname='localhost', community='nuevaSDLG', version=2)
+    session = Session(hostname='localhost', community='comunidadASR', version=2)
     description = str(session.get(OID))
     inicio = description.index("=")
     sub = description[inicio + 2:]

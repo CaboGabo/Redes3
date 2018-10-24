@@ -1,4 +1,3 @@
-#!/usr/bin/env pythongns
 import os
 import time
 import rrdtool
@@ -12,42 +11,43 @@ class NotifyHW:
 
     COMMASPACE = ', '
     # Define params
-    rrdpath = '/home/cabogabo/PycharmProjects/observatoriumPantitlan/bdrrdtool/'
-    pngpath = '/home/cabogabo/PycharmProjects/observatoriumPantitlan/graficas/'
-    fname = 'netPred.rrd'
+    rrdpath = "/home/francisco/Documentos/Redes 3/Redes3-master/bdrrdtool/"
+    pngpath = "/home/francisco/Documentos/Redes 3/Redes3-master/graficas/"
+
     width = '500'
     height = '200'
     mailsender = "observatoriumpantitlan@gmail.com"
     mailreceip = "observatoriumpantitlan@gmail.com"
     mailserver = 'smtp.gmail.com: 587'
     password = 'observatorium1234'
-
+    fname = "netPred.rrd"
+    fname1 = "netPred.rrd"
     # Generate charts for last 48 hours
     enddate = int(rrdtool.last("bdrrdtool/netPred.rrd")) #ultimo valor del XML
     begdate = enddate - 1300
 
 
-    def send_alert_attached(subject, flist):
+    def send_alert_attached(self,subject, flist):
         """ Will send e-mail, attaching png
         files in the flist.
         """
         msg = MIMEMultipart()
         msg['Subject'] = subject
-        msg['From'] = mailsender
-        msg['To'] = COMMASPACE.join(mailreceip)
+        msg['From'] = self.mailsender
+        msg['To'] = self.COMMASPACE.join(self.mailreceip)
         for file in flist:
-            png_file = pngpath + file.split('.')[0] + '.png'
+            png_file = self.pngpath + file.split('.')[0] + '.png'
             #print png_file
             fp = open(png_file, 'rb')
             img = MIMEImage(fp.read())
             fp.close()
             msg.attach(img)
-        mserver = smtplib.SMTP(mailserver)
-        mserver.sendmail(mailsender, mailreceip, msg.as_string())
+        mserver = smtplib.SMTP(self.mailserver)
+        mserver.sendmail(self.mailsender, self.mailreceip, msg.as_string())
         mserver.quit()
 
 
-    def check_aberration(rrdpath, fname):
+    def check_aberration(self,rrdpath, fname):
         """ This will check for begin and end of aberration
             in file. Will return:
             0 if aberration not found.
@@ -55,12 +55,12 @@ class NotifyHW:
             2 if aberration ends
         """
         ab_status = 0
-        rrdfilename = rrdpath + fname
+        rrdfilename = rrdpath + self.fname
 
         info = rrdtool.info(rrdfilename)
         rrdstep = int(info['step'])
         lastupdate = info['last_update']
-        previosupdate = str(lastupdate - rrdstep - 1)
+        previosupdate = str((lastupdate - rrdstep*100) - 1)
         graphtmpfile = tempfile.NamedTemporaryFile()
         # Ready to get FAILURES  from rrdfile
         # will process failures array values for time of 2 last updates
@@ -69,21 +69,23 @@ class NotifyHW:
                                'PRINT:f0:MIN:%1.0lf',
                                'PRINT:f0:MAX:%1.0lf',
                                'PRINT:f0:LAST:%1.0lf')
-        print(values)
-        fmin = int(values[2][0])
-        fmax = int(values[2][1])
-        flast = int(values[2][2])
-        print ("fmin="+fmin+", fmax="+fmax+",flast="+flast)
-        # check if failure value had changed.
-        if (fmin != fmax):
-            if (flast == 1):
-                ab_status = 1
-            else:
-                ab_status = 2
-        return ab_status
+
+        if(values[2][0]!='-nan'):
+            fmin = int(values[2][0])
+            fmax = int(values[2][1])
+            flast = int(values[2][2])
+            print ("fmin="+str(fmin)+", fmax="+str(fmax)+",flast="+str(flast))
+            # check if failure value had changed.
+            if (fmin != fmax):
+
+                if (flast == 1):
+                    ab_status = 1
+                else:
+                    ab_status = 2
+            return ab_status
 
 
-    def gen_image(rrdpath, pngpath, fname, width, height, begdate, enddate):
+    def gen_image(self,rrdpath, pngpath, fname, width, height, begdate, enddate):
         """
         Generates png file from rrd database:
         rrdpath - the path where rrd is located
@@ -100,14 +102,14 @@ class NotifyHW:
         # Will show some additional info on chart
         endd_str = time.strftime("%d/%m/%Y %H:%M:%S", (time.localtime(int(enddate)))).replace(':', '\:')
         begd_str = time.strftime("%d/%m/%Y %H:%M:%S", (time.localtime(int(begdate)))).replace(':', '\:')
-        title = 'Chart for: ' + fname.split('.')[0]
+        title = 'Chart for: ' + self.fname.split('.')[0]
         # Files names
-        pngfname = pngpath + fname.split('.')[0] + '.png'
-        rrdfname = rrdpath + fname
+        pngfname = pngpath + self.fname.split('.')[0] + '.png'
+        rrdfname = self.rrdpath + self.fname
         # Get iformation from rrd file
         info = rrdtool.info(rrdfname)
-        print(info)
-        rrdtype = info['ds[inoctets].type']
+        # print(info)
+        rrdtype = info["ds[inoctets].type"]
         # Will use multip variable for calculation of totals,
         # should be usefull for internet traffic accounting,
         # or call/minutes count from CDR's.
@@ -148,4 +150,4 @@ class NotifyHW:
                       'LINE1:upper#ff0000:"Upper Bound "',
                       'LINE1:pred#ff00FF:"Forecast "',
                       'LINE1:ndev#000000:"Deviation "',
-                      'LINE1:lower#00FF00:"Lower Bound "')
+                      'LINE1:lower#00FF00:"Lower Bound"')
