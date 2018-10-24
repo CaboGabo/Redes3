@@ -81,6 +81,11 @@ class Principal():
 
     def holtwinters(self,pes):
         crearBDRRDHW(self.alpha.get(),self.beta.get(),self.gamma.get())
+        h = Thread(target=actualizarHW)
+        h1 = Thread(target=graficarHW, args=(self.alpha.get(),pes,))
+        h.start()
+        h1.start()
+
 
     def pestInicio(self):
         pes0 = ttk.Frame(self.notebook)
