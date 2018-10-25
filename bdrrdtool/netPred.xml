@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE rrd SYSTEM "http://oss.oetiker.ch/rrdtool/rrdtool.dtd">
+<!-- Round Robin Database Dump -->
+<rrd>
+	<version>0003</version>
+	<step>100</step> <!-- Seconds -->
+	<lastupdate>1540421246</lastupdate> <!-- 2018-10-24 17:47:26 CDT -->
+
+	<ds>
+		<name> inoctets </name>
+		<type> COUNTER </type>
+		<minimal_heartbeat>600</minimal_heartbeat>
+		<min>NaN</min>
+		<max>NaN</max>
+
+		<!-- PDP Status -->
+		<last_ds>21360584</last_ds>
+		<value>1.8929600000e+05</value>
+		<unknown_sec> 0 </unknown_sec>
+	</ds>
+
+	<ds>
+		<name> outoctets </name>
+		<type> COUNTER </type>
+		<minimal_heartbeat>600</minimal_heartbeat>
+		<min>NaN</min>
+		<max>NaN</max>
+
+		<!-- PDP Status -->
+		<last_ds>21360584</last_ds>
+		<value>1.8929600000e+05</value>
+		<unknown_sec> 0 </unknown_sec>
+	</ds>
+
+	<!-- Round Robin Archives -->
+	<rra>
+		<cf>AVERAGE</cf>
+		<pdp_per_row>1</pdp_per_row> <!-- 100 seconds -->
+
+		<params>
+		<xff>5.0000000000e-01</xff>
+		</params>
+		<cdp_prep>
+			<ds>
+			<primary_value>4.3502916845e+03</primary_value>
+			<secondary_value>0.0000000000e+00</secondary_value>
+			<value>NaN</value>
+			<unknown_datapoints>0</unknown_datapoints>
+			</ds>
+			<ds>
+			<primary_value>4.2439800000e+03</primary_value>
+			<secondary_value>0.0000000000e+00</secondary_value>
+			<value>NaN</value>
+			<unknown_datapoints>0</unknown_datapoints>
+			</ds>
+		</cdp_prep>
+		<database>
+			<!-- 2018-10-24 17:15:00 CDT / 1540419300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:16:40 CDT / 1540419400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:18:20 CDT / 1540419500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:20:00 CDT / 1540419600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:21:40 CDT / 1540419700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:23:20 CDT / 1540419800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:25:00 CDT / 1540419900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:26:40 CDT / 1540420000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:28:20 CDT / 1540420100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:30:00 CDT / 1540420200 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:31:40 CDT / 1540420300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:33:20 CDT / 1540420400 --> <row><v>4.2071884011e+03</v><v>4.2071884011e+03</v></row>
+			<!-- 2018-10-24 17:35:00 CDT / 1540420500 --> <row><v>4.1761111619e+03</v><v>4.1761111619e+03</v></row>
+			<!-- 2018-10-24 17:36:40 CDT / 1540420600 --> <row><v>4.2584348211e+03</v><v>4.2584348211e+03</v></row>
+			<!-- 2018-10-24 17:38:20 CDT / 1540420700 --> <row><v>4.1656304595e+03</v><v>4.1744000000e+03</v></row>
+			<!-- 2018-10-24 17:40:00 CDT / 1540420800 --> <row><v>4.1532818890e+03</v><v>4.2700000000e+03</v></row>
+			<!-- 2018-10-24 17:41:40 CDT / 1540420900 --> <row><v>4.2028891241e+03</v><v>4.1226400000e+03</v></row>
+			<!-- 2018-10-24 17:43:20 CDT / 1540421000 --> <row><v>4.1276585274e+03</v><v>4.0824200000e+03</v></row>
+			<!-- 2018-10-24 17:45:00 CDT / 1540421100 --> <row><v>4.2567783155e+03</v><v>4.3630900000e+03</v></row>
+			<!-- 2018-10-24 17:46:40 CDT / 1540421200 --> <row><v>4.3502916845e+03</v><v>4.2439800000e+03</v></row>
+		</database>
+	</rra>
+	<rra>
+		<cf>HWPREDICT</cf>
+		<pdp_per_row>1</pdp_per_row> <!-- 100 seconds -->
+
+		<params>
+		<hw_alpha>1.0000000000e-01</hw_alpha>
+		<hw_beta>3.0000000000e-03</hw_beta>
+		<dependent_rra_idx>2</dependent_rra_idx>
+		</params>
+		<cdp_prep>
+			<ds>
+			<primary_value>NaN</primary_value>
+			<secondary_value>0.0000000000e+00</secondary_value>
+			<intercept>4.2071884011e+03</intercept>
+			<last_intercept>4.2071884011e+03</last_intercept>
+			<slope>0.0000000000e+00</slope>
+			<last_slope>0.0000000000e+00</last_slope>
+			<nan_count>1</nan_count>
+			<last_nan_count>1</last_nan_count>
+			</ds>
+			<ds>
+			<primary_value>NaN</primary_value>
+			<secondary_value>0.0000000000e+00</secondary_value>
+			<intercept>4.2071884011e+03</intercept>
+			<last_intercept>4.2071884011e+03</last_intercept>
+			<slope>0.0000000000e+00</slope>
+			<last_slope>0.0000000000e+00</last_slope>
+			<nan_count>1</nan_count>
+			<last_nan_count>1</last_nan_count>
+			</ds>
+		</cdp_prep>
+		<database>
+			<!-- 2018-10-24 16:25:00 CDT / 1540416300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:26:40 CDT / 1540416400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:28:20 CDT / 1540416500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:30:00 CDT / 1540416600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:31:40 CDT / 1540416700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:33:20 CDT / 1540416800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:35:00 CDT / 1540416900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:36:40 CDT / 1540417000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:38:20 CDT / 1540417100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:40:00 CDT / 1540417200 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:41:40 CDT / 1540417300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:43:20 CDT / 1540417400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:45:00 CDT / 1540417500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:46:40 CDT / 1540417600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:48:20 CDT / 1540417700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:50:00 CDT / 1540417800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:51:40 CDT / 1540417900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:53:20 CDT / 1540418000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:55:00 CDT / 1540418100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:56:40 CDT / 1540418200 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:58:20 CDT / 1540418300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:00:00 CDT / 1540418400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:01:40 CDT / 1540418500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:03:20 CDT / 1540418600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:05:00 CDT / 1540418700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:06:40 CDT / 1540418800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:08:20 CDT / 1540418900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:10:00 CDT / 1540419000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:11:40 CDT / 1540419100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:13:20 CDT / 1540419200 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:15:00 CDT / 1540419300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:16:40 CDT / 1540419400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:18:20 CDT / 1540419500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:20:00 CDT / 1540419600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:21:40 CDT / 1540419700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:23:20 CDT / 1540419800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:25:00 CDT / 1540419900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:26:40 CDT / 1540420000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:28:20 CDT / 1540420100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:30:00 CDT / 1540420200 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:31:40 CDT / 1540420300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:33:20 CDT / 1540420400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:35:00 CDT / 1540420500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:36:40 CDT / 1540420600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:38:20 CDT / 1540420700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:40:00 CDT / 1540420800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:41:40 CDT / 1540420900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:43:20 CDT / 1540421000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:45:00 CDT / 1540421100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:46:40 CDT / 1540421200 --> <row><v>NaN</v><v>NaN</v></row>
+		</database>
+	</rra>
+	<rra>
+		<cf>SEASONAL</cf>
+		<pdp_per_row>1</pdp_per_row> <!-- 100 seconds -->
+
+		<params>
+		<seasonal_gamma>1.0000000000e-01</seasonal_gamma>
+		<seasonal_smooth_idx>6</seasonal_smooth_idx>
+		<dependent_rra_idx>1</dependent_rra_idx>
+		</params>
+		<cdp_prep>
+			<ds>
+			<primary_value>1.4310328343e+02</primary_value>
+			<secondary_value>0.0000000000e+00</secondary_value>
+			<seasonal>NaN</seasonal>
+			<last_seasonal>NaN</last_seasonal>
+			<init_flag>2</init_flag>
+			</ds>
+			<ds>
+			<primary_value>3.6791598947e+01</primary_value>
+			<secondary_value>0.0000000000e+00</secondary_value>
+			<seasonal>NaN</seasonal>
+			<last_seasonal>NaN</last_seasonal>
+			<init_flag>1</init_flag>
+			</ds>
+		</cdp_prep>
+		<database>
+			<!-- 2018-10-24 17:31:40 CDT / 1540420300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:33:20 CDT / 1540420400 --> <row><v>0.0000000000e+00</v><v>0.0000000000e+00</v></row>
+			<!-- 2018-10-24 17:35:00 CDT / 1540420500 --> <row><v>-3.1077239188e+01</v><v>-3.1077239188e+01</v></row>
+			<!-- 2018-10-24 17:36:40 CDT / 1540420600 --> <row><v>5.1246420012e+01</v><v>5.1246420012e+01</v></row>
+			<!-- 2018-10-24 17:38:20 CDT / 1540420700 --> <row><v>-4.1557941573e+01</v><v>-3.2788401053e+01</v></row>
+			<!-- 2018-10-24 17:40:00 CDT / 1540420800 --> <row><v>-5.3906512003e+01</v><v>6.2811598947e+01</v></row>
+			<!-- 2018-10-24 17:41:40 CDT / 1540420900 --> <row><v>-4.2992769758e+00</v><v>-8.4548401053e+01</v></row>
+			<!-- 2018-10-24 17:43:20 CDT / 1540421000 --> <row><v>-7.9529873660e+01</v><v>-1.2476840105e+02</v></row>
+			<!-- 2018-10-24 17:45:00 CDT / 1540421100 --> <row><v>4.9589914461e+01</v><v>1.5590159895e+02</v></row>
+			<!-- 2018-10-24 17:46:40 CDT / 1540421200 --> <row><v>1.4310328343e+02</v><v>3.6791598947e+01</v></row>
+		</database>
+	</rra>
+	<rra>
+		<cf>DEVSEASONAL</cf>
+		<pdp_per_row>1</pdp_per_row> <!-- 100 seconds -->
+
+		<params>
+		<seasonal_gamma>1.0000000000e-01</seasonal_gamma>
+		<seasonal_smooth_idx>6</seasonal_smooth_idx>
+		<dependent_rra_idx>1</dependent_rra_idx>
+		</params>
+		<cdp_prep>
+			<ds>
+			<primary_value>NaN</primary_value>
+			<secondary_value>0.0000000000e+00</secondary_value>
+			<seasonal>NaN</seasonal>
+			<last_seasonal>NaN</last_seasonal>
+			<init_flag>2</init_flag>
+			</ds>
+			<ds>
+			<primary_value>NaN</primary_value>
+			<secondary_value>0.0000000000e+00</secondary_value>
+			<seasonal>NaN</seasonal>
+			<last_seasonal>NaN</last_seasonal>
+			<init_flag>1</init_flag>
+			</ds>
+		</cdp_prep>
+		<database>
+			<!-- 2018-10-24 17:31:40 CDT / 1540420300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:33:20 CDT / 1540420400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:35:00 CDT / 1540420500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:36:40 CDT / 1540420600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:38:20 CDT / 1540420700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:40:00 CDT / 1540420800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:41:40 CDT / 1540420900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:43:20 CDT / 1540421000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:45:00 CDT / 1540421100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:46:40 CDT / 1540421200 --> <row><v>NaN</v><v>NaN</v></row>
+		</database>
+	</rra>
+	<rra>
+		<cf>DEVPREDICT</cf>
+		<pdp_per_row>1</pdp_per_row> <!-- 100 seconds -->
+
+		<params>
+		<dependent_rra_idx>3</dependent_rra_idx>
+		</params>
+		<cdp_prep>
+			<ds>
+			<primary_value>NaN</primary_value>
+			<secondary_value>0.0000000000e+00</secondary_value>
+			</ds>
+			<ds>
+			<primary_value>NaN</primary_value>
+			<secondary_value>0.0000000000e+00</secondary_value>
+			</ds>
+		</cdp_prep>
+		<database>
+			<!-- 2018-10-24 16:25:00 CDT / 1540416300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:26:40 CDT / 1540416400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:28:20 CDT / 1540416500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:30:00 CDT / 1540416600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:31:40 CDT / 1540416700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:33:20 CDT / 1540416800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:35:00 CDT / 1540416900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:36:40 CDT / 1540417000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:38:20 CDT / 1540417100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:40:00 CDT / 1540417200 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:41:40 CDT / 1540417300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:43:20 CDT / 1540417400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:45:00 CDT / 1540417500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:46:40 CDT / 1540417600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:48:20 CDT / 1540417700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:50:00 CDT / 1540417800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:51:40 CDT / 1540417900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:53:20 CDT / 1540418000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:55:00 CDT / 1540418100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:56:40 CDT / 1540418200 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:58:20 CDT / 1540418300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:00:00 CDT / 1540418400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:01:40 CDT / 1540418500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:03:20 CDT / 1540418600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:05:00 CDT / 1540418700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:06:40 CDT / 1540418800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:08:20 CDT / 1540418900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:10:00 CDT / 1540419000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:11:40 CDT / 1540419100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:13:20 CDT / 1540419200 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:15:00 CDT / 1540419300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:16:40 CDT / 1540419400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:18:20 CDT / 1540419500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:20:00 CDT / 1540419600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:21:40 CDT / 1540419700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:23:20 CDT / 1540419800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:25:00 CDT / 1540419900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:26:40 CDT / 1540420000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:28:20 CDT / 1540420100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:30:00 CDT / 1540420200 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:31:40 CDT / 1540420300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:33:20 CDT / 1540420400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:35:00 CDT / 1540420500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:36:40 CDT / 1540420600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:38:20 CDT / 1540420700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:40:00 CDT / 1540420800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:41:40 CDT / 1540420900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:43:20 CDT / 1540421000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:45:00 CDT / 1540421100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:46:40 CDT / 1540421200 --> <row><v>NaN</v><v>NaN</v></row>
+		</database>
+	</rra>
+	<rra>
+		<cf>FAILURES</cf>
+		<pdp_per_row>1</pdp_per_row> <!-- 100 seconds -->
+
+		<params>
+		<delta_pos>2.0000000000e+00</delta_pos>
+		<delta_neg>2.0000000000e+00</delta_neg>
+		<window_len>9</window_len>
+		<failure_threshold>7</failure_threshold>
+		<dependent_rra_idx>3</dependent_rra_idx>
+		</params>
+		<cdp_prep>
+			<ds>
+			<primary_value>0.0000000000e+00</primary_value>
+			<secondary_value>0.0000000000e+00</secondary_value>
+			<history>000000000</history>
+			</ds>
+			<ds>
+			<primary_value>0.0000000000e+00</primary_value>
+			<secondary_value>0.0000000000e+00</secondary_value>
+			<history>000000000</history>
+			</ds>
+		</cdp_prep>
+		<database>
+			<!-- 2018-10-24 16:25:00 CDT / 1540416300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:26:40 CDT / 1540416400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:28:20 CDT / 1540416500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:30:00 CDT / 1540416600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:31:40 CDT / 1540416700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:33:20 CDT / 1540416800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:35:00 CDT / 1540416900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:36:40 CDT / 1540417000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:38:20 CDT / 1540417100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:40:00 CDT / 1540417200 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:41:40 CDT / 1540417300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:43:20 CDT / 1540417400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:45:00 CDT / 1540417500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:46:40 CDT / 1540417600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:48:20 CDT / 1540417700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:50:00 CDT / 1540417800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:51:40 CDT / 1540417900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:53:20 CDT / 1540418000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:55:00 CDT / 1540418100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:56:40 CDT / 1540418200 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 16:58:20 CDT / 1540418300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:00:00 CDT / 1540418400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:01:40 CDT / 1540418500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:03:20 CDT / 1540418600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:05:00 CDT / 1540418700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:06:40 CDT / 1540418800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:08:20 CDT / 1540418900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:10:00 CDT / 1540419000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:11:40 CDT / 1540419100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:13:20 CDT / 1540419200 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:15:00 CDT / 1540419300 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:16:40 CDT / 1540419400 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:18:20 CDT / 1540419500 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:20:00 CDT / 1540419600 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:21:40 CDT / 1540419700 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:23:20 CDT / 1540419800 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:25:00 CDT / 1540419900 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:26:40 CDT / 1540420000 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:28:20 CDT / 1540420100 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:30:00 CDT / 1540420200 --> <row><v>NaN</v><v>NaN</v></row>
+			<!-- 2018-10-24 17:31:40 CDT / 1540420300 --> <row><v>0.0000000000e+00</v><v>0.0000000000e+00</v></row>
+			<!-- 2018-10-24 17:33:20 CDT / 1540420400 --> <row><v>0.0000000000e+00</v><v>0.0000000000e+00</v></row>
+			<!-- 2018-10-24 17:35:00 CDT / 1540420500 --> <row><v>0.0000000000e+00</v><v>0.0000000000e+00</v></row>
+			<!-- 2018-10-24 17:36:40 CDT / 1540420600 --> <row><v>0.0000000000e+00</v><v>0.0000000000e+00</v></row>
+			<!-- 2018-10-24 17:38:20 CDT / 1540420700 --> <row><v>0.0000000000e+00</v><v>0.0000000000e+00</v></row>
+			<!-- 2018-10-24 17:40:00 CDT / 1540420800 --> <row><v>0.0000000000e+00</v><v>0.0000000000e+00</v></row>
+			<!-- 2018-10-24 17:41:40 CDT / 1540420900 --> <row><v>0.0000000000e+00</v><v>0.0000000000e+00</v></row>
+			<!-- 2018-10-24 17:43:20 CDT / 1540421000 --> <row><v>0.0000000000e+00</v><v>0.0000000000e+00</v></row>
+			<!-- 2018-10-24 17:45:00 CDT / 1540421100 --> <row><v>0.0000000000e+00</v><v>0.0000000000e+00</v></row>
+			<!-- 2018-10-24 17:46:40 CDT / 1540421200 --> <row><v>0.0000000000e+00</v><v>0.0000000000e+00</v></row>
+		</database>
+	</rra>
+</rrd>
