@@ -63,8 +63,8 @@ def grafica5():
     if ret:
         print(rrdtool.error())
 
-def graficaCPU():
-    ret = rrdtool.create("bdrrdtool/gCPU.rrd",
+def graficaCPU(NumNucleo):
+    ret = rrdtool.create("bdrrdtool/gCPU"+str(NumNucleo)+".rrd",
                          "--start", 'N',
                          "--step", '60',
                          "DS:CPUload:GAUGE:600:U:U",
@@ -72,6 +72,8 @@ def graficaCPU():
 
     if ret:
         print(rrdtool.error())
+
+
 
 def graficaRAM():
     ret = rrdtool.create("bdrrdtool/gRAM.rrd",

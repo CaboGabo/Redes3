@@ -152,13 +152,19 @@ class Principal():
 
     def pestGraficas(self):
         pes4 = ttk.Frame(self.notebook)
+
         self.notebook.add(pes4, text="Gráficas")
+        #scrollbar = Scrollbar(pes4)
+        #scrollbar.pack(side=RIGHT, fill=Y)
         grafica1()
         grafica2()
         grafica3()
         grafica4()
         grafica5()
-        graficaCPU()
+        graficaCPU(1)
+        graficaCPU(2)
+        graficaCPU(3)
+        graficaCPU(4)
         graficaRAM()
 
         t1 = Thread(target=actualizarDatosGrafica)

@@ -84,7 +84,7 @@ def printinfo(indice, columna,pes3):
         time.sleep(2)
 
 def actualizarDatosGrafica():
-    session = Session(hostname='localhost', community='nuevaSDLG', version=2)
+    session = Session(hostname='localhost', community='comunidadASR', version=2)
     enviadoReadyCPU = True
     enviadoSetCPU = True
     enviadoGoCPU = True
@@ -128,39 +128,58 @@ def actualizarDatosGrafica():
 
         # Empieza linea base
 
-        uso_CPU = int(obtenerValor(rendimientoSNMP[0]))
-        valor = "N:" + str(uso_CPU)
-        rrdtool.update("bdrrdtool/gCPU.rrd", valor)
+        uso_CPU1 = int(obtenerValor(cpuSNMP[0]))
+        valor1 = "N:" + str(uso_CPU1)
+        rrdtool.update("bdrrdtool/gCPU1.rrd", valor1)
+        uso_CPU2 = int(obtenerValor(cpuSNMP[1]))
+        valor2 = "N:" + str(uso_CPU1)
+        rrdtool.update("bdrrdtool/gCPU2.rrd", valor2)
+        uso_CPU3 = int(obtenerValor(cpuSNMP[2]))
+        valor3 = "N:" + str(uso_CPU1)
+        rrdtool.update("bdrrdtool/gCPU3.rrd", valor3)
+        uso_CPU4 = int(obtenerValor(cpuSNMP[3]))
+        valor4 = "N:" + str(uso_CPU1)
+        rrdtool.update("bdrrdtool/gCPU4.rrd", valor4)
 
         ramusada = int(obtenerValor(rendimientoSNMP[1]))
         ramtotal = int(obtenerValor(rendimientoSNMP[2]))
         porcentaje = int((ramusada * 100) / ramtotal)
         valor2 = "N:" + str(porcentaje)
         rrdtool.update("bdrrdtool/gRAM.rrd", valor2)
-        if (uso_CPU > 5 and uso_CPU < 50 and enviadoReadyCPU):
-            send_alert_attached("Sobrepasa Umbral ready del uso del CPU", "CPU")
+        cpu_utilizado=0
+        if (uso_CPU1 > 40):
+            cpu_utilizado = 1
+        elif (uso_CPU2 > 40):
+            cpu_utilizado = 2
+        elif (uso_CPU3 > 40):
+            cpu_utilizado = 3
+        elif (uso_CPU4 > 40):
+            cpu_utilizado = 4
+
+        if (uso_CPU1 > 40 or uso_CPU2>40 or uso_CPU3>40 or uso_CPU4>40 and enviadoReadyCPU):
+            send_alert_attached("Sobrepasa Umbral ready del uso del CPU", "CPU",cpu_utilizado)
             enviadoReadyCPU = False
-        elif (uso_CPU > 50 and uso_CPU < 60 and enviadoSetCPU):
-            send_alert_attached("Sobrepasa Umbral set del uso del CPU", "CPU")
+        elif (uso_CPU1 > 50  or uso_CPU2>50 or uso_CPU3>50 or uso_CPU4>50 and enviadoSetCPU):
+            send_alert_attached("Sobrepasa Umbral set del uso del CPU", "CPU",cpu_utilizado)
             enviadoSetCPU = False
-        elif (uso_CPU > 60 and enviadoGoCPU):
-            send_alert_attached("Sobrepasa Umbral go del uso del CPU", "CPU")
+        elif (uso_CPU1 > 60 or uso_CPU2>60 or uso_CPU3>60 or uso_CPU4>60 and enviadoGoCPU):
+            send_alert_attached("Sobrepasa Umbral go del uso del CPU", "CPU",cpu_utilizado)
             enviadoGoCPU = False
 
         if (porcentaje > 45 and porcentaje < 50 and enviadoReadyRAM):
-            send_alert_attached("Sobrepasa Umbral ready del uso de la RAM", "RAM")
+            send_alert_attached("Sobrepasa Umbral ready del uso de la RAM", "RAM",cpu_utilizado)
             enviadoReadyRAM = False
         elif (porcentaje > 50 and porcentaje < 60 and enviadoSetRAM):
             enviadoSetRAM = False
-            send_alert_attached("Sobrepasa Umbral set del uso de la RAM", "RAM")
+            send_alert_attached("Sobrepasa Umbral set del uso de la RAM", "RAM",cpu_utilizado)
         elif (porcentaje > 60 and enviadoGoRAM):
             enviadoGoRAM = False
-            send_alert_attached("Sobrepasa Umbral go del uso de la RAM", "RAM")
+            send_alert_attached("Sobrepasa Umbral go del uso de la RAM", "RAM",cpu_utilizado)
 
         time.sleep(1)
 
 def obtenerValor(OID):
-    session = Session(hostname='localhost', community='nuevaSDLG', version=2)
+    session = Session(hostname='localhost', community='comunidadASR', version=2)
     description = str(session.get(OID))
     inicio = description.index("=")
     sub = description[inicio + 2:]
@@ -173,7 +192,7 @@ def graficar(pes4):
     tiempo_final = ultima_lectura
     tiempo_inicial = tiempo_final - 1300
 
-    ultima_lectura_cpu_ram = int(rrdtool.last("bdrrdtool/gCPU.rrd"))
+    ultima_lectura_cpu_ram = int(rrdtool.last("bdrrdtool/gCPU1.rrd"))
     tiempo_final_cpu_ram = ultima_lectura_cpu_ram
     tiempo_inicial_cpu_ram = tiempo_final_cpu_ram - 1800
 
@@ -255,15 +274,15 @@ def graficar(pes4):
         a5.image = img5
         a5.grid(row=fila, column=columna)
 
-        ret6 = rrdtool.graphv("graficas/gCPU.png",
+        ret6 = rrdtool.graphv("graficas/gCPU1.png",
                              "--start", str(tiempo_inicial_cpu_ram),
                              "--vertical-label=Carga CPU",
-                             "--title=Uso de CPU",
+                             "--title=Uso de CPU 1",
                              "--color", "ARROW#009900",
                              '--vertical-label', "Uso de CPU (%)",
                              '--lower-limit', '0',
                              '--upper-limit', '100',
-                             "DEF:carga=bdrrdtool/gCPU.rrd:CPUload:AVERAGE",
+                             "DEF:carga=bdrrdtool/gCPU1.rrd:CPUload:AVERAGE",
                              "AREA:carga#00FF00:CPU load",
                              "LINE1:30",
                              "AREA:5#ff000022:stack",
@@ -271,14 +290,84 @@ def graficar(pes4):
                              "HRULE:50#FFFF00:set",
                              "HRULE:60#FF0000:go")
 
-        columna= 1
-        img6 = PhotoImage(file="graficas/gCPU.png")
-        a6 = Label(pes4, image=img6)
-        a6.image = img6
-        a6.grid(row=fila, column=columna)
-        fila+=1
+        ret7 = rrdtool.graphv("graficas/gCPU2.png",
+                              "--start", str(tiempo_inicial_cpu_ram),
+                              "--vertical-label=Carga CPU",
+                              "--title=Uso de CPU 2",
+                              "--color", "ARROW#009900",
+                              '--vertical-label', "Uso de CPU (%)",
+                              '--lower-limit', '0',
+                              '--upper-limit', '100',
+                              "DEF:carga=bdrrdtool/gCPU2.rrd:CPUload:AVERAGE",
+                              "AREA:carga#00FF00:CPU load",
+                              "LINE1:30",
+                              "AREA:5#ff000022:stack",
+                              "HRULE:45#0000ff:ready",
+                              "HRULE:50#FFFF00:set",
+                              "HRULE:60#FF0000:go")
 
-        ret7 = rrdtool.graphv("graficas/gRAM.png",
+        ret8 = rrdtool.graphv("graficas/gCPU3.png",
+                              "--start", str(tiempo_inicial_cpu_ram),
+                              "--vertical-label=Carga CPU",
+                              "--title=Uso de CPU 3",
+                              "--color", "ARROW#009900",
+                              '--vertical-label', "Uso de CPU (%)",
+                              '--lower-limit', '0',
+                              '--upper-limit', '100',
+                              "DEF:carga=bdrrdtool/gCPU3.rrd:CPUload:AVERAGE",
+                              "AREA:carga#00FF00:CPU load",
+                              "LINE1:30",
+                              "AREA:5#ff000022:stack",
+                              "HRULE:45#0000ff:ready",
+                              "HRULE:50#FFFF00:set",
+                              "HRULE:60#FF0000:go")
+
+
+        ret9 = rrdtool.graphv("graficas/gCPU4.png",
+                              "--start", str(tiempo_inicial_cpu_ram),
+                              "--vertical-label=Carga CPU",
+                              "--title=Uso de CPU 3",
+                              "--color", "ARROW#009900",
+                              '--vertical-label', "Uso de CPU (%)",
+                              '--lower-limit', '0',
+                              '--upper-limit', '100',
+                              "DEF:carga=bdrrdtool/gCPU4.rrd:CPUload:AVERAGE",
+                              "AREA:carga#00FF00:CPU load",
+                              "LINE1:30",
+                              "AREA:5#ff000022:stack",
+                              "HRULE:45#0000ff:ready",
+                              "HRULE:50#FFFF00:set",
+                              "HRULE:60#FF0000:go")
+        fila+=1
+        Label(pes4, text="Gráficas del uso de CPU: ").grid(row=fila, column=0)
+        fila+=1
+        columna= 0
+        img6a = PhotoImage(file="graficas/gCPU1.png")
+        a6a = Label(pes4, image=img6a)
+        a6a.image = img6a
+        a6a.grid(row=fila, column=columna)
+        columna = 1
+        img6b = PhotoImage(file="graficas/gCPU2.png")
+        a6b = Label(pes4, image=img6b)
+        a6b.image = img6b
+        a6b.grid(row=fila, column=columna)
+        fila += 1
+
+        columna = 0
+        img6c = PhotoImage(file="graficas/gCPU3.png")
+        a6c = Label(pes4, image=img6c)
+        a6c.image = img6c
+        a6c.grid(row=fila, column=columna)
+        columna = 1
+        img6d = PhotoImage(file="graficas/gCPU4.png")
+        a6d = Label(pes4, image=img6d)
+        a6d.image = img6d
+        a6d.grid(row=fila, column=columna)
+        fila += 1
+        Label(pes4, text="Gráfica del uso de la RAM: ").grid(row=fila, column=0)
+        fila += 1
+
+        ret10 = rrdtool.graphv("graficas/gRAM.png",
                              "--start", str(tiempo_inicial_cpu_ram),
                              "--vertical-label=Carga RAM",
                              "--title=Uso de RAM",
